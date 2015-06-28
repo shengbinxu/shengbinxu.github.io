@@ -1,0 +1,38 @@
+# Site settings
+title:       高山仰止
+email:       shengbin_xu@163.com
+author:      许胜斌
+description: "高山仰止"
+baseurl:     ""
+url:         "http://shengbinxu.github.io"
+
+#Duoshuo short Name / 多说的shortname
+duoshuo: 
+
+#Baidu analytics / 百度统计(异步的js码，注意使用异步版本的)
+baidu_analyze:420cbba6627836e94dadd6f16bc6bb31
+
+# Google analytics
+google_analytics:
+
+# Optional features
+animated:           false
+show_related_posts: false
+show_post_footers:  false
+
+# Social icons
+show_social_icons: false
+github_username:
+twitter_username:
+google_plus_id:
+linkedin_username:
+bitcoin_url:
+paypal_url:
+flattr_button:
+
+# Build settings
+markdown:     kramdown
+permalink:    pretty
+paginate:     3
+sass:
+  compressed: true

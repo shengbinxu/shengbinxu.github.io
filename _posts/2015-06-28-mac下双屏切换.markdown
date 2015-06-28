@@ -1,0 +1,71 @@
+---
+layout: post
+category : mac
+tagline: "Supporting tagline"
+tags : [mac,双屏切换,快捷键,automator]
+---
+
+很多程序员都会用mac pro或者air。但问题是屏幕过于小，即使15寸的屏幕，在开发网页时，也是很不方便的。
+于是，很多人会采用双屏。但是，双屏操作，屏幕切换，真的是件很头疼的事情，经常不知道当前鼠标在哪个屏幕上。
+
+本文主要介绍了双屏操作时，如何快速切换屏幕，甚至说，在不切换屏幕的情况下，如果控制另外一个屏幕的应用程序。
+
+#### 切换屏幕快捷键
+
+假如你有俩屏幕：1屏（主屏）、2屏,通过给俩屏幕分别绑定一个快捷键，实现快速切换。
+
+快捷键的绑定是通过软件catchMouse来控制的：
+
+1、下载catchMouse并安装。
+
+2、给屏幕分别绑定快捷键:
+
+<img src="{{ site.url }}/assets/1.png" width="30%" style="display:inline">
+<!-- ![catchMouse截屏]({{ site.url }}/assets/1.png ) -->
+
+如图：屏幕1的快捷键就是ctrl+2,屏幕2的快捷键就是ctrl+1
+
+有没有觉得很方便啊？再也不用去找鼠标当面在哪个屏幕了。
+
+#### 不切换屏幕的情况下，控制另外一个屏幕的应用程序
+
+看了标题大家也许不知道什么意思啊。设想一个场景：网页开发工程师，1屏在开着IDE写代码，2屏放个chrome浏览器
+展示网页效果。每次修改完代码，都要先跳到2屏（可以用方法1中的快捷键方式，也挺方便的），然后刷新浏览器。需要两步
+
+那有没有一个全局快捷键，当我在1屏的时候，就直接刷新2屏的浏览器呢？
+
+我一直都觉得mac下应该有这种全局快捷键。其实就是在mac上给chrome绑定一个刷新的快捷键，这个快捷键，不管chrome是否是当前的活跃程序，都可以起作用。
+
+这里主要通过automator创建一个service来实现
+
+步骤：
+
+
+1、启动automator,new一个service：
+
+<img src="{{ site.url }}/assets/new_service.png" width="50%" style="display:inline-block">
+
+2、填写service脚本：
+
+<img src="{{ site.url }}/assets/script.png" width="70%" style="display:inline-block">
+
+3、执行脚本，看看浏览器是否刷新
+
+<img src="{{ site.url }}/assets/run.png" width="70%" style="display:inline-block">
+
+此时，如果你的chrome浏览器安装在application下，那么，此时执行脚本，浏览器就可以刷新了。
+
+4、command +s ,保存我们前面写的这个脚本，即service. 给他起一个名字："reload Chrome".保存之后，就会发现，我们的
+系统里面多了一个全局的service
+
+<img src="{{ site.url }}/assets/service.png" width="70%" style="display:inline-block">
+
+
+5、此时，我们已经有一个可以全局刷新chrome的脚本了。下一步，就是给这个service绑定一个快捷键。
+
+<img src="{{ site.url }}/assets/reload.png" width="70%" style="display:inline-block">
+
+我绑定的是command + F1
+
+此时，已经大功告成，不论当前你的鼠标在哪个屏幕，也不论你的chrome当前在哪个屏幕，你只要按下command + F1 ，chrome
+就自动刷新了。
