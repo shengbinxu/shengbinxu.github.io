@@ -16,7 +16,7 @@ baidu_analyze: 420cbba6627836e94dadd6f16bc6bb31
 google_analytics:
 
 # Optional features
-animated:           false
+animated:           true
 show_related_posts: false
 show_post_footers:  false
 
@@ -33,6 +33,6 @@ flattr_button:
 # Build settings
 markdown:     kramdown
 permalink:    pretty
-paginate:     3
+paginate:     8
 sass:
   compressed: true
