@@ -7,7 +7,7 @@ baseurl:     ""
 url:         "http://shengbinxu.github.io"
 
 #Duoshuo short Name / 多说的shortname
-duoshuo: 
+duoshuo:heat.duoshuo.com
 
 #Baidu analytics / 百度统计(异步的js码，注意使用异步版本的)
 baidu_analyze:420cbba6627836e94dadd6f16bc6bb31
