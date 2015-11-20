@@ -1,0 +1,175 @@
+@font-face {
+	font-family: 'FelbridgeStd';
+	src: url('./images/FelbridgeStd-Light.otf') format('embedded-opentype')
+}
+ul{
+	margin: 0px;
+	padding: 0px;
+}
+.header{
+	background: url('./images/bg_lasheng.png') repeat-x;
+}
+.header .img{
+	height: 450px;
+	background: url('./images/top_bg1.png') no-repeat;
+	width: 960px;
+	background-size: contain;
+	margin: auto;
+}
+.content{
+	width: 810px;
+	padding: 0px 10px;
+	margin: auto;
+	color: #00081F;
+	font-size:14px;
+	font-family: FelbridgeStd;
+	padding-bottom: 48px;
+	border-bottom: 1px solid #BCC3CA;
+}
+.content .tabs{
+	margin: 48px 0px 27px 0px ;
+	width: 800px;
+}
+.content .tabs li{
+	float: left;
+	margin-right: 60px;
+	padding: 0px 5px;
+	/*width: 200px;*/
+	font-size:24px;
+	border-bottom: 3px solid white;
+	cursor: pointer;
+}
+.content .tabs li.active{
+	border-bottom-color: #286AFC;
+	color: #296AFC;
+}
+.content .info{
+	width: 805px;
+	margin: auto;
+	line-height: 22px;
+	color: #334258;
+	min-height: 350px;
+}
+
+.swiper-container {
+	width: 100%;
+	height: 100%;
+}
+.swiper-slide {
+	text-align: center;
+	font-size: 18px;
+	background: #fff;
+	/* Center slide text vertically */
+	display: -webkit-box;
+	display: -ms-flexbox;
+	display: -webkit-flex;
+	display: flex;
+	-webkit-box-pack: center;
+	-ms-flex-pack: center;
+	-webkit-justify-content: center;
+	justify-content: center;
+	-webkit-box-align: center;
+	-ms-flex-align: center;
+	-webkit-align-items: center;
+	align-items: center;
+	height: 120px !important;
+}
+.swiper-button-prev-custom{
+	background: url('./images/left_icon.png') no-repeat ;
+	width: 44px;
+	height:44px;
+	background-size: contain ;
+	position: absolute;
+	z-index: 10;
+	margin-top: -22px;
+	top: 50%;
+	left: 0px;
+	cursor: pointer;
+}
+.swiper-button-next-custom{
+	background: url('./images/right_icon.png') no-repeat ;
+	width: 44px;
+	height:44px;
+	background-size: contain ;
+	position: absolute;
+	z-index: 10;
+	margin-top: -22px;
+	top: 50%;
+	right: 0px;
+	cursor: pointer;
+}
+.schools_container{
+	position: relative;
+	width: 830px;
+	margin: auto;
+}
+.schools{
+	width: 720px;
+	margin: auto;
+	margin-top: 80px !important;
+	margin-bottom: 80px !important;
+	height: 120px;
+}
+.schools .photo {
+	width: 120px;
+	height: 30px;
+	background-size: cover;
+	display: block;
+	cursor: pointer;
+	border-radius: 60px;
+	color: white;
+	font-size: 14px;
+	padding: 45px 0px;
+}
+.schools .photo.hover{
+	background-color: #2B3B55;
+	background-image: none !important;
+}
+.footer{
+	height: 120px;
+	background: #F0F5FA;
+	padding-top: 60px;
+	text-align: center;
+	color: #8E8F90;
+	font-weight: bold;
+	font-size: 12px;
+}
+.footer .label{
+	color: #8C8F90;
+	font-weight: normal;
+}
+.Committee dt{
+	font-weight: bold;
+}
+.Committee .customer dd{
+	float: left;
+	width: 220px;
+}
+.sub_org dt{
+	float: left;
+}
+.sub_org dd{
+	float: left;
+}
+#allmap{
+	width: 700px;
+	height: 300px;
+	margin-bottom: 20px;
+}
+.info.Program ul li{
+	line-height: 32px;
+}
+.info.Program ul li .label{
+	font-weight: bold;
+	padding-right: 3px;
+}
+.info.Information dt{
+	font-weight: bold;
+}
+.info.Information dd{
+	margin: 0px;
+}
+.info.Information .label{
+	font-weight: bold;
+	padding-right: 3px;
+}
