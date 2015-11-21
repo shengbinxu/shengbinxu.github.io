@@ -1,11 +1,9 @@
 @font-face {
 	font-family: 'FelbridgeStd';
-	src: url('./images/FelbridgeStd-Light.otf') format('opentype');
-}
-@font-face {
-	font-family: 'FelbridgeStd';
-	font-weight: bold;
-	src: url('./images/FelbridgeStd-Light.otf') format('opentype');
+	src: url('./images/FelbridgeStd-Light.eot'); /* IE9 Compat Modes */
+	src: url('./images/FelbridgeStd-Light.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+		 url('./images/FelbridgeStd-Light.woff') format('woff'), /* Modern Browsers */
+		 url('./images/FelbridgeStd-Light.ttf')  format('truetype'); /* Safari, Android, iOS */
 }
 ul{
 	margin: 0px;
@@ -148,14 +146,20 @@ ul{
 	color: #8C8F90;
 	font-weight: normal;
 }
-.Committee dt{
+.Committee .customer dt{
 	font-weight: bold;
 	font-size: 16px;
 	color: #00081F;
+	padding: 14px 0px;
 }
 .Committee .customer dd{
 	float: left;
 	width: 220px;
+	padding-bottom: 14px;
+}
+.Committee .local dt{
+	font-weight: bold;
+	font-size: 16px;
 }
 .sub_org dt{
 	float: left;
