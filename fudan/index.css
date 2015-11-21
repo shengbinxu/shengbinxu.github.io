@@ -172,8 +172,18 @@ ul{
 }
 .Committee  .customer dd{
 	float: left;
-	width: 220px;
-	padding-bottom: 14px;
+	width: 400px;
+	/*padding-bottom: 14px;*/
+}
+.Committee .customer .sub li{
+	float: left;
+	padding: 0px 30px 14px 0px;
+}
+.Committee .customer .sub li.university{
+	font-weight: bold;
+	font-size: 14px;
+	float: none;
+	padding-bottom: 0px;
 }
 .Committee .local dt{
 	font-weight: bold;
