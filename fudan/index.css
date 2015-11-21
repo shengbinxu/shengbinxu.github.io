@@ -24,7 +24,7 @@ ul{
 	font-size:14px;
 	font-family: FelbridgeStd;
 	padding-bottom: 48px;
-	border-bottom: 1px solid #BCC3CA;
+	border-bottom: 1px solid #eaeef4;
 }
 .content .tabs{
 	margin: 48px 0px 27px 0px ;
@@ -98,6 +98,12 @@ ul{
 	right: 0px;
 	cursor: pointer;
 }
+.swiper-button-prev-custom.hover{
+	background-image: url('./images/hover_left_icon.png');
+}
+.swiper-button-next-custom.hover{
+	background-image: url('./images/hover_right_icon.png');
+}
 .schools_container{
 	position: relative;
 	width: 830px;
@@ -111,19 +117,18 @@ ul{
 	height: 120px;
 }
 .schools .photo {
-	width: 120px;
-	height: 30px;
+	width: 100px;
+	height: 40px;
 	background-size: cover;
 	display: block;
 	cursor: pointer;
 	border-radius: 60px;
 	color: white;
 	font-size: 14px;
-	padding: 45px 0px;
+	padding: 40px 10px;
 }
 .schools .photo.hover{
-	background-color: #2B3B55;
-	background-image: none !important;
+	background-image: url('./images/mask_bg.png') !important;
 }
 .footer{
 	height: 120px;
@@ -140,6 +145,8 @@ ul{
 }
 .Committee dt{
 	font-weight: bold;
+	font-size: 16px;
+	color: #00081F;
 }
 .Committee .customer dd{
 	float: left;
@@ -152,9 +159,10 @@ ul{
 	float: left;
 }
 #allmap{
-	width: 700px;
-	height: 300px;
+	width: 750px;
+	height: 336px;
 	margin-bottom: 20px;
+	background:url('./images/map.png') no-repeat;
 }
 .info.Program ul li{
 	line-height: 32px;
@@ -172,4 +180,7 @@ ul{
 .info.Information .label{
 	font-weight: bold;
 	padding-right: 3px;
+}
+.info .Information h3{
+	font-size: 16px;
 }

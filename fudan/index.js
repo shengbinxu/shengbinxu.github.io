@@ -14,6 +14,11 @@ $(function(){
 		loop: true,
 		centeredSlides: true
 	});
+	$('.swiper-button-next-custom,.swiper-button-prev-custom').mouseover(function(){
+		$(this).addClass('hover');
+	}).mouseleave(function(){
+		$(this).removeClass('hover');
+	});
 
 	//school log hover效果
 	$('.photo').on('mouseenter',function(){
@@ -70,4 +75,4 @@ function init() {
 	map.addOverlay(marker);               // 将标注添加到地图中
 	marker.setAnimation(BMAP_ANIMATION_BOUNCE); //跳动的动画
 }
-window.onload = loadJScript;  //异步加载地图
+//window.onload = loadJScript;  //异步加载地图
