@@ -4,21 +4,25 @@
 $(function(){
 	//相册swiper
 	var photoSwiper = new Swiper('#schools', {
-		nextButton: '.swiper-button-next-custom',
-		prevButton: '.swiper-button-prev-custom',
+		nextButton: '.swiper-button-next',
+		prevButton: '.swiper-button-prev',
 		spaceBetween: 30,
 		slidesPerView: 5,
-		//autoplay:1500,
+		autoplay:1500,
 		autoplayDisableOnInteraction: false,
 		speed:1000,
 		loop: true,
-		centeredSlides: true
+		centeredSlides: true,
+		lazyLoading: true
 	});
 	$('.swiper-button-next-custom,.swiper-button-prev-custom').mouseover(function(){
 		$(this).addClass('hover');
 	}).mouseleave(function(){
 		$(this).removeClass('hover');
 	});
+	$('.swiper-button-next-custom').click(function(){
+		$('.swiper-button-next').trigger('click');
+	})
 
 	//school log hover效果
 	$('.photo').on('mouseenter',function(){

@@ -77,6 +77,24 @@ ul{
 	align-items: center;
 	height: 120px !important;
 }
+.swiper-button-next, .swiper-button-prev {
+	position: absolute;
+	top: 50%;
+	width: 27px;
+	height: 44px;
+	margin-top: -22px;
+	z-index: 10;
+	cursor: pointer;
+	-moz-background-size: 27px 44px;
+	-webkit-background-size: 27px 44px;
+	background-size: 27px 44px;
+	background-position: center;
+	background-repeat: no-repeat;
+}
+.swiper-button-next{
+	right: 10px;
+	left:auto;
+}
 .swiper-button-prev-custom{
 	background: url('./images/left_icon.png') no-repeat ;
 	width: 44px;
