@@ -8,7 +8,7 @@ $(function(){
 		slidesPerView: 5,
 		autoplay:1500,
 		autoplayDisableOnInteraction: false,
-		//speed:1000,
+		speed:1000,
 		loop: true,
 		centeredSlides: true,
 		lazyLoading: true
