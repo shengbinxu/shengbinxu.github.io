@@ -170,6 +170,14 @@ ul{
 	color: #00081F;
 	padding-bottom: 14px;
 }
+.Committee .line{
+	position: absolute;
+	width: 1px;
+	height: 280px;
+	background:url("./images/line.jpg") no-repeat;
+	top: 42px;
+	left: 350px;
+}
 .Committee  .customer dd{
 	float: left;
 	width: 400px;
@@ -177,13 +185,15 @@ ul{
 }
 .Committee .customer .sub li{
 	float: left;
-	padding: 0px 30px 14px 0px;
+	padding: 0px 0px 30px 0px;
+	width: 110px;
 }
 .Committee .customer .sub li.university{
 	font-weight: bold;
 	font-size: 14px;
 	float: none;
-	padding-bottom: 0px;
+	padding-bottom: 6px;
+	width: 300px;
 }
 .Committee .local dt{
 	font-weight: bold;
@@ -195,7 +205,7 @@ ul{
 	font-weight: bold;
 	font-size: 14px;
 	float: none;
-	padding-bottom: 0px;
+	padding-bottom: 6px;
 }
 .Committee dd{
 	margin-left: 0px !important;
@@ -205,7 +215,8 @@ ul{
 }
 .sub_org li{
 	float: left;
-	padding: 0px 30px 14px 0px;
+	padding: 0px 0px 30px 0px;
+	width: 110px;
 }
 .block{
 	display: block;
