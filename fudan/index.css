@@ -111,12 +111,12 @@ ul{
 	position: relative;
 	width: 830px;
 	margin: auto;
+	margin-top: 80px !important;
+	margin-bottom: 80px !important;
 }
 .schools{
 	width: 720px;
 	margin: auto;
-	margin-top: 80px !important;
-	margin-bottom: 80px !important;
 	height: 120px;
 }
 .schools .photo {
@@ -146,13 +146,13 @@ ul{
 	color: #8C8F90;
 	font-weight: normal;
 }
-.Committee .customer dt{
+.Committee  .customer dt{
 	font-weight: bold;
 	font-size: 16px;
 	color: #00081F;
 	padding: 14px 0px;
 }
-.Committee .customer dd{
+.Committee  .customer dd{
 	float: left;
 	width: 220px;
 	padding-bottom: 14px;
@@ -160,13 +160,21 @@ ul{
 .Committee .local dt{
 	font-weight: bold;
 	font-size: 16px;
+	color: #00081F;
+	padding: 14px 0px;
 }
-.sub_org dt{
+.Committee .local .position{
+	font-weight: bold;
+	font-size: 14px;
+}
+.sub_org li{
 	float: left;
+	padding: 0px 30px 14px 0px;
 }
-.sub_org dd{
-	float: left;
+.block{
+	display: block;
 }
+
 #allmap{
 	width: 750px;
 	height: 336px;
