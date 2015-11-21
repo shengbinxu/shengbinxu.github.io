@@ -167,6 +167,9 @@ ul{
 	font-weight: bold;
 	font-size: 14px;
 }
+.sub_org{
+	width: 800px;
+}
 .sub_org li{
 	float: left;
 	padding: 0px 30px 14px 0px;
