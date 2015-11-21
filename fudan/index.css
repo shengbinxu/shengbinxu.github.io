@@ -1,6 +1,11 @@
 @font-face {
 	font-family: 'FelbridgeStd';
-	src: url('./images/FelbridgeStd-Light.otf') format('embedded-opentype')
+	src: url('./images/FelbridgeStd-Light.otf') format('opentype');
+}
+@font-face {
+	font-family: 'FelbridgeStd';
+	font-weight: bold;
+	src: url('./images/FelbridgeStd-Light.otf') format('opentype');
 }
 ul{
 	margin: 0px;

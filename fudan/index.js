@@ -8,9 +8,9 @@ $(function(){
 		prevButton: '.swiper-button-prev-custom',
 		spaceBetween: 30,
 		slidesPerView: 5,
-		autoplay:1500,
+		//autoplay:1500,
 		autoplayDisableOnInteraction: false,
-		//speed:300,
+		speed:1000,
 		loop: true,
 		centeredSlides: true
 	});
