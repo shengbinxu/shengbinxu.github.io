@@ -184,6 +184,11 @@ ul{
 .Committee .local .position{
 	font-weight: bold;
 	font-size: 14px;
+	float: none;
+	padding-bottom: 0px;
+}
+.Committee dd{
+	margin-left: 0px !important;
 }
 .sub_org{
 	width: 800px;

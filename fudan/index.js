@@ -6,7 +6,7 @@ $(function(){
 	var photoSwiper = new Swiper('#schools', {
 		spaceBetween: 30,
 		slidesPerView: 5,
-		//autoplay:1500,
+		autoplay:1500,
 		autoplayDisableOnInteraction: false,
 		//speed:1000,
 		loop: true,
