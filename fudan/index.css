@@ -30,7 +30,7 @@ ul{
 	border-bottom: 1px solid #eaeef4;
 }
 .content .tabs{
-	margin: 48px 0px 27px 0px ;
+	margin: 48px 0px 48px 0px ;
 	width: 800px;
 }
 .content .tabs li{
@@ -168,7 +168,7 @@ ul{
 	font-weight: bold;
 	font-size: 16px;
 	color: #00081F;
-	padding: 14px 0px;
+	padding-bottom: 14px;
 }
 .Committee  .customer dd{
 	float: left;
@@ -179,7 +179,7 @@ ul{
 	font-weight: bold;
 	font-size: 16px;
 	color: #00081F;
-	padding: 14px 0px;
+	padding-bottom: 14px;
 }
 .Committee .local .position{
 	font-weight: bold;
