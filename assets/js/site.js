@@ -74,92 +74,128 @@
   highlight();
 })();
 
-// 首页：标签筛选 + 排序
+// 首页：标签页切换 + 标签筛选 + 排序
 (function () {
   var list = document.getElementById('post-list');
   var cloud = document.getElementById('tag-cloud');
   var sortSel = document.getElementById('sort-select');
   var empty = document.getElementById('filter-empty');
+  var main = document.querySelector('.list-main');
   if (!list) return;
 
-  var items = [].slice.call(list.querySelectorAll('.post-item'));
-
-  // 每篇文章的标签
-  items.forEach(function (li) {
-    var raw = (li.getAttribute('data-tags') || '').trim();
-    li._tags = raw ? raw.split(',').map(function (s) { return s.trim(); }).filter(Boolean) : [];
-    li._date = li.getAttribute('data-date') || '';
-    li._title = li.getAttribute('data-title') || '';
+  var cards = [].slice.call(list.querySelectorAll('.post-card'));
+  cards.forEach(function (c) {
+    var raw = (c.getAttribute('data-tags') || '').trim();
+    c._tags = raw ? raw.split(',').map(function (s) { return s.trim(); }).filter(Boolean) : [];
+    c._date = c.getAttribute('data-date') || '';
+    c._title = c.getAttribute('data-title') || '';
   });
+
+  var counts = {};
+  cards.forEach(function (c) { c._tags.forEach(function (t) { counts[t] = (counts[t] || 0) + 1; }); });
+  var tags = Object.keys(counts).sort(function (a, b) {
+    return counts[b] - counts[a] || a.localeCompare(b, 'zh-Hans-CN');
+  });
+
+  var current = null;   // 当前选中的标签
+  var view = 'time';    // time | tag
 
   // ---------- 排序 ----------
   function applySort(mode) {
-    var sorted = items.slice();
+    var sorted = cards.slice();
     sorted.sort(function (a, b) {
       if (mode === 'title') return a._title.localeCompare(b._title, 'zh-Hans-CN');
       var da = Date.parse(a._date) || 0, db = Date.parse(b._date) || 0;
       return mode === 'old' ? da - db : db - da;
     });
-    sorted.forEach(function (li) { list.appendChild(li); });
+    sorted.forEach(function (c) { list.appendChild(c); });
   }
+  if (sortSel) sortSel.addEventListener('change', function () { applySort(sortSel.value); render(); });
 
-  if (sortSel) {
-    sortSel.addEventListener('change', function () { applySort(sortSel.value); });
-  }
+  function matches(c) { return current === null || c._tags.indexOf(current) !== -1; }
 
-  // ---------- 标签云（从文章列表统计，无需服务端插件）----------
-  var counts = {};
-  items.forEach(function (li) {
-    li._tags.forEach(function (t) { counts[t] = (counts[t] || 0) + 1; });
-  });
+  // ---------- 渲染 ----------
+  function render() {
+    // 标签云
+    if (cloud) {
+      cloud.innerHTML = '';
+      var all = document.createElement('button');
+      all.type = 'button';
+      all.className = 'tag tag-btn' + (current === null ? ' active' : '');
+      all.textContent = '全部 (' + cards.length + ')';
+      all.addEventListener('click', function () { select(null, true); });
+      cloud.appendChild(all);
+      tags.forEach(function (t) {
+        var b = document.createElement('button');
+        b.type = 'button';
+        b.className = 'tag tag-btn' + (current === t ? ' active' : '');
+        b.textContent = t + ' (' + counts[t] + ')';
+        b.addEventListener('click', function () { select(t, true); });
+        cloud.appendChild(b);
+      });
+    }
 
-  var tags = Object.keys(counts).sort(function (a, b) {
-    return counts[b] - counts[a] || a.localeCompare(b, 'zh-Hans-CN');
-  });
+    // 旧的分组容器清掉
+    var old = main && main.querySelector('.tag-groups');
+    if (old) old.remove();
 
-  var current = null;
+    var shown = cards.filter(matches);
+    if (empty) empty.hidden = shown.length !== 0;
 
-  function renderCloud() {
-    if (!cloud) return;
-    cloud.innerHTML = '';
-    var all = document.createElement('button');
-    all.type = 'button';
-    all.className = 'tag tag-btn' + (current === null ? ' active' : '');
-    all.textContent = '全部 (' + items.length + ')';
-    all.addEventListener('click', function () { select(null, true); });
-    cloud.appendChild(all);
-
-    tags.forEach(function (t) {
-      var b = document.createElement('button');
-      b.type = 'button';
-      b.className = 'tag tag-btn' + (current === t ? ' active' : '');
-      b.textContent = t + ' (' + counts[t] + ')';
-      b.addEventListener('click', function () { select(t, true); });
-      cloud.appendChild(b);
-    });
-  }
-
-  // ---------- 筛选 ----------
-  function select(tag, pushUrl) {
-    current = tag;
-    var shown = 0;
-    items.forEach(function (li) {
-      var hit = tag === null || li._tags.indexOf(tag) !== -1;
-      li.hidden = !hit;
-      if (hit) shown++;
-    });
-    if (empty) empty.hidden = shown !== 0;
-    renderCloud();
-    if (pushUrl && window.history && window.history.replaceState) {
-      var url = location.pathname + (tag === null ? '' : '?tag=' + encodeURIComponent(tag));
-      window.history.replaceState(null, '', url);
+    if (view === 'tag') {
+      list.hidden = true;
+      var wrap = document.createElement('div');
+      wrap.className = 'tag-groups';
+      var byTag = {};
+      shown.forEach(function (c) { c._tags.forEach(function (t) { (byTag[t] = byTag[t] || []).push(c); }); });
+      Object.keys(byTag).sort(function (a, b) {
+        return byTag[b].length - byTag[a].length || a.localeCompare(b, 'zh-Hans-CN');
+      }).forEach(function (t) {
+        var g = document.createElement('section');
+        g.className = 'tag-group';
+        var h = document.createElement('h3');
+        h.className = 'tag-group-title';
+        h.textContent = t + ' (' + byTag[t].length + ')';
+        g.appendChild(h);
+        byTag[t].forEach(function (c) {
+          var clone = c.cloneNode(true);
+          clone.classList.add('post-card');
+          clone.removeAttribute('id');
+          g.appendChild(clone);
+        });
+        wrap.appendChild(g);
+      });
+      main.insertBefore(wrap, list);
+    } else {
+      list.hidden = false;
+      cards.forEach(function (c) { c.hidden = !matches(c); });
     }
   }
 
-  // ---------- 初始化：读 URL 上的 ?tag= ----------
+  function select(tag, pushUrl) {
+    current = tag;
+    render();
+    if (pushUrl && window.history && window.history.replaceState) {
+      window.history.replaceState(null, '',
+        location.pathname + (tag === null ? '' : '?tag=' + encodeURIComponent(tag)));
+    }
+  }
+
+  // ---------- 标签页切换 ----------
+  var tabs = [].slice.call(document.querySelectorAll('.tab'));
+  tabs.forEach(function (tab) {
+    tab.addEventListener('click', function () {
+      tabs.forEach(function (x) { x.classList.toggle('is-active', x === tab); });
+      view = tab.getAttribute('data-view');
+      render();
+    });
+  });
+
+  // ---------- 初始化 ----------
   var m = location.search.match(/[?&]tag=([^&]*)/);
   var initial = m ? decodeURIComponent(m[1].replace(/\+/g, ' ')) : null;
   if (initial && tags.indexOf(initial) === -1) initial = null;
-  select(initial, false);
+  current = initial;
   applySort(sortSel ? sortSel.value : 'new');
+  render();
 })();

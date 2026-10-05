@@ -260,6 +260,30 @@ body {
   flex-wrap: wrap;
 }
 
+/* 迁移文章的文末原文出处 */
+.article-foot {
+  margin-top: 40px;
+  padding-top: 16px;
+  border-top: 1px solid var(--border);
+  font-size: 14px;
+  line-height: 1.7;
+  color: var(--muted);
+}
+
+.article-foot p { margin: 0; }
+
+.article-foot a {
+  color: var(--muted);
+  text-decoration: none;
+  border-bottom: 1px solid var(--border);
+  word-break: break-all;
+}
+
+.article-foot a:hover {
+  color: var(--link-hover);
+  border-bottom-color: var(--link-hover);
+}
+
 .prose {
   /* 注意：这里不设 max-width。改用「子元素限宽」的方式，
      让段落保持 704px 阅读宽度，而表格能用满卡片宽度——
@@ -274,13 +298,12 @@ body {
 .prose > * { max-width: var(--measure); }
 
 /* 表格与代码块不参与限宽，可用满卡片 */
+/* 表格不外扩：保持在正文 704px 内，与段落左右对齐。
+   超宽时靠长串断行 + 横向滚动兜底，而不是顶到卡片边缘。 */
 .prose > table {
-  /* 表格吃掉卡片左右内边距，比正文宽 2×内边距，减少长路径被从中间劈开。
-     外扩量必须与 --card-pad-x 绑定，否则窄屏下会把页面撑出横向滚动。 */
-  width: calc(100% + 2 * var(--card-pad-x));
-  margin-left: calc(-1 * var(--card-pad-x));
-  max-width: none;
-  font-size: 0.84em;
+  width: 100%;
+  max-width: 100%;
+  font-size: 0.875em;   /* 与 yinwang 的 typography 一致 */
 }
 .prose > pre { max-width: 100%; }
 
@@ -498,77 +521,139 @@ body {
   .article-card { padding: 24px var(--card-pad-x) 32px; }
 }
 
-/* ------------------------------------------------- 首页：筛选与排序 */
+/* ------------------------------------------------- 首页：列表页（对齐 yinwang） */
 
-.filters {
-  padding: 22px 26px;
-  margin-bottom: 40px;
+/* 容器 1120px = 主栏 776 + 间距 24 + 侧栏 320 */
+.list-layout {
+  display: flex;
+  gap: 24px;
+  align-items: flex-start;
+  max-width: 1120px;
+  margin: 0 auto;
 }
+.list-main { flex: 1; min-width: 0; }
+.list-side { width: 320px; flex-shrink: 0; }
 
-.filter-row { display: flex; align-items: flex-start; gap: 16px; }
-.filter-row + .filter-row { margin-top: 18px; }
-
-.filter-label {
-  flex-shrink: 0;
-  width: 84px;
-  padding-top: 6px;
-  font-size: 15px;
+/* 标签页：激活项 2px 主题色下划线 */
+.tabs {
+  display: flex;
+  border-bottom: 1px solid var(--border-theme);
+  margin-bottom: 24px;
+  max-width: 1120px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.tab {
+  font-family: var(--font-ui);
+  font-size: 16px;
+  color: var(--muted);
+  background: none;
+  border: 0;
+  border-bottom: 2px solid transparent;
+  padding: 12px 16px;
+  cursor: pointer;
+  transition: color .15s ease, border-color .15s ease;
+}
+.tab:hover { color: var(--fg); }
+.tab.is-active {
+  color: rgb(var(--theme-600));
+  border-bottom-color: rgb(var(--theme-600));
   font-weight: 600;
-  color: var(--fg);
 }
+
+/* 文章卡：白底 + 主题色描边 + 16px 圆角 + 24px 内边距 */
+.post-list { display: flex; flex-direction: column; gap: 20px; }
+.post-card {
+  background: var(--card);
+  border: 1px solid var(--border-theme);
+  border-radius: 16px;
+  padding: 24px;
+  transition: border-color .15s ease;
+}
+.post-card:hover { border-color: rgb(var(--theme-400)); }
+
+.post-card-title { font-size: 24px; font-weight: 700; line-height: 1.33; margin: 0 0 12px; }
+.post-card-title a { color: var(--fg); text-decoration: none; }
+.post-card-title a:hover { color: var(--link); }
+
+.post-card-desc {
+  color: var(--muted);
+  font-size: 16px;
+  line-height: 1.625;
+  margin: 0 0 16px;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;      /* 描述最多 3 行，超出省略 */
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.post-card-foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  padding-top: 16px;
+  border-top: 1px solid var(--border);
+}
+.post-card-date { font-size: 14px; color: var(--muted); }
+
+/* 侧栏卡片 */
+.side-card {
+  background: var(--card);
+  border: 1px solid var(--border-theme);
+  border-radius: 12px;
+  padding: 24px;
+}
+.side-card + .side-card { margin-top: 20px; }
+.side-title { font-size: 17px; font-weight: 700; margin: 0 0 14px; }
 
 .filter-select {
   font-family: var(--font-ui);
-  font-size: 15px;
+  font-size: 16px;
   color: var(--fg-body);
   background: var(--card);
   border: 1px solid var(--border);
   border-radius: 8px;
-  padding: 7px 12px;
-  min-width: 180px;
+  padding: 9px 12px;
+  width: 100%;
   cursor: pointer;
 }
-
 .filter-select:hover { border-color: var(--link); }
 
 .tag-cloud { display: flex; flex-wrap: wrap; gap: 8px; }
 
-/* 标签同时用于 <a>（文章元信息）和 <button>（筛选器），统一外观 */
+/* 按分类浏览时的分组标题 */
+.tag-group { margin-bottom: 28px; }
+.tag-group-title {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--fg);
+  margin: 0 0 14px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--border-theme);
+}
+
 .tag-btn {
   font-family: var(--font-ui);
   border: 1px solid transparent;
   cursor: pointer;
   transition: background-color .15s ease, color .15s ease, border-color .15s ease;
 }
-
-.tag-btn:hover {
-  background: rgb(var(--theme-200));
-  color: rgb(var(--theme-900));
-}
-
-.tag-btn.active {
-  background: rgb(var(--theme-600));
-  color: #fff;
-  border-color: rgb(var(--theme-600));
-}
-
+.tag-btn:hover { background: rgb(var(--theme-200)); color: rgb(var(--theme-900)); }
+.tag-btn.active { background: rgb(var(--theme-600)); color: #fff; border-color: rgb(var(--theme-600)); }
 html.dark .tag-btn:hover { background: rgb(var(--theme-800)); color: rgb(var(--theme-100)); }
-html.dark .tag-btn.active { background: rgb(var(--theme-400)); color: #1b2230; border-color: rgb(var(--theme-400)); }
+html.dark .tag-btn.active { background: rgb(var(--theme-400)); color: #1f2937; border-color: rgb(var(--theme-400)); }
 
 .filter-empty { color: var(--muted); font-size: 15px; padding: 12px 0; }
 
-@media (max-width: 600px) {
-  .filters { padding: 16px 18px; }
-  .filter-row { flex-direction: column; gap: 8px; }
-  .filter-label { width: auto; padding-top: 0; }
-  .filter-select { width: 100%; }
+@media (max-width: 1000px) {
+  .list-layout { flex-direction: column-reverse; }
+  .list-side { width: 100%; }
+  .side-card + .side-card { margin-top: 16px; }
 }
-
-/* 表格单元格内允许长串在必要时断行。
-   否则 viking://user/default/resources/nanobot 这类长路径会把表格
-   的最小宽度撑到 800px 以上，逼出横向滚动条。
-   用 anywhere 而非 break-word：只有 anywhere 会影响 min-content 计算。 */
-.prose table th,
-.prose table td { overflow-wrap: anywhere; }
-
-.prose table code { overflow-wrap: anywhere; }
+@media (max-width: 600px) {
+  .post-card { padding: 18px; border-radius: 12px; }
+  .post-card-title { font-size: 20px; }
+  .side-card { padding: 18px; }
+}
