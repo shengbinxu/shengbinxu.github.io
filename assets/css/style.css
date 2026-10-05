@@ -715,6 +715,7 @@ html.dark .tag-btn.active { background: rgb(var(--theme-400)); color: #1f2937; b
 .cat-card {
   display: flex;
   flex-direction: column;
+  min-width: 0;
   background: var(--card);
   border: 1px solid var(--border-theme);
   border-radius: 16px;
@@ -786,7 +787,7 @@ html.dark .cat-tag:hover { background: rgb(var(--theme-800)); }
 }
 .cat-recent-item:hover { color: var(--link); text-decoration: none; }
 .cat-recent-item time { flex-shrink: 0; color: var(--muted); font-size: 13px; font-variant-numeric: tabular-nums; }
-.cat-recent-item span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.cat-recent-item span { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 
 @media (max-width: 1000px) { .cat-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-@media (max-width: 620px)  { .cat-grid { grid-template-columns: 1fr; gap: 16px; } .cat-card { padding: 18px; } }
+@media (max-width: 620px)  { .cat-grid { grid-template-columns: minmax(0, 1fr); gap: 16px; } .cat-card { padding: 18px; } }
