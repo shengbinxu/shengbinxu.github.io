@@ -13,7 +13,69 @@
     root.classList.toggle('dark');
     try { localStorage.setItem('theme', root.classList.contains('dark') ? 'dark' : 'light'); } catch (e) {}
     sync();
+    if (window.__syncGiscusTheme) window.__syncGiscusTheme();
   });
+})();
+
+// 文章页评论（giscus，基于 GitHub Discussions）
+(function () {
+  var host = document.querySelector('.giscus');
+  if (!host) return;
+
+  var REPO = 'shengbinxu/shengbinxu.github.io';
+  var REPO_ID = 'R_kgDOU73Ouw';
+  var CATEGORY = 'Announcements';               // 只允许维护者新建讨论，读者只能评论
+  var CATEGORY_ID = 'DIC_kwDOU73Ou84DHD7f';
+
+  function isDark() { return document.documentElement.classList.contains('dark'); }
+
+  var loaded = false;
+  function load() {
+    if (loaded) return;
+    loaded = true;
+    var s = document.createElement('script');
+    s.src = 'https://giscus.app/client.js';
+    s.async = true;
+    s.crossOrigin = 'anonymous';
+    var attrs = {
+      'data-repo': REPO,
+      'data-repo-id': REPO_ID,
+      'data-category': CATEGORY,
+      'data-category-id': CATEGORY_ID,
+      'data-mapping': 'pathname',
+      'data-strict': '0',
+      'data-reactions-enabled': '1',
+      'data-emit-metadata': '0',
+      'data-input-position': 'bottom',
+      'data-theme': isDark() ? 'dark' : 'light',   // 首屏就取对，避免先闪一下白底
+      'data-lang': 'zh-CN',
+      'data-loading': 'lazy'
+    };
+    Object.keys(attrs).forEach(function (k) { s.setAttribute(k, attrs[k]); });
+    host.appendChild(s);
+  }
+
+  // 滚到评论区附近才加载，不拖慢文章首屏
+  if ('IntersectionObserver' in window) {
+    var io = new IntersectionObserver(function (entries) {
+      for (var i = 0; i < entries.length; i++) {
+        if (entries[i].isIntersecting) { load(); io.disconnect(); return; }
+      }
+    }, { rootMargin: '400px' });
+    io.observe(host);
+  } else {
+    load();
+  }
+
+  // 站点切换深浅色时，通知已加载的 giscus 换主题
+  window.__syncGiscusTheme = function () {
+    var f = document.querySelector('iframe.giscus-frame');
+    if (!f || !f.contentWindow) return;
+    f.contentWindow.postMessage(
+      { giscus: { setConfig: { theme: isDark() ? 'dark' : 'light' } } },
+      'https://giscus.app'
+    );
+  };
 })();
 
 // 目录：扫描正文 h2/h3 生成，并随滚动高亮

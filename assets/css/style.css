@@ -822,3 +822,29 @@ html.dark .cat-tag:hover { background: rgb(var(--theme-800)); }
 
 @media (max-width: 1000px) { .cat-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 @media (max-width: 620px)  { .cat-grid { grid-template-columns: minmax(0, 1fr); gap: 16px; } .cat-card { padding: 18px; } }
+
+/* ------------------------------------------------------------ 评论区 */
+
+.comments {
+  margin-top: 48px;
+  padding-top: 32px;
+  border-top: 1px solid var(--border-theme);
+}
+
+.comments-title {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--fg);
+  margin: 0 0 20px;
+}
+
+.comments-tip { color: var(--muted); font-size: 15px; }
+
+/* giscus 未加载 / 加载中时给一个占位，避免布局跳动 */
+.giscus { min-height: 120px; }
+.giscus:empty::after {
+  content: '评论加载中…';
+  display: block;
+  color: var(--muted);
+  font-size: 15px;
+}
