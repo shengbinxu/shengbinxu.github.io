@@ -37,6 +37,14 @@
   --measure:   704px;   /* 正文阅读宽度 */
   --toc-width: 200px;
   --radius:    10px;
+
+  /* 字体：西文在前、中文在后 —— 英文单词与数字走系统字体，
+     不会被中文字体的西文字形接管（衬线中文字体的西文尤其难看） */
+  --font-latin: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Helvetica, Arial;
+  --font-ui:    var(--font-latin), "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+  --font-body:  var(--font-latin), "Noto Serif SC Variable", "Noto Serif SC",
+                "Songti SC", "Source Han Serif SC", "SimSun", serif;
+  --font-mono:  ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
 }
 
 html.dark {
@@ -64,8 +72,7 @@ body {
   margin: 0;
   background: var(--bg);
   color: var(--fg-body);
-  font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", "PingFang SC",
-               "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+  font-family: var(--font-ui);
   font-size: 16px;
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
@@ -250,6 +257,7 @@ body {
 
 .prose {
   max-width: var(--measure);
+  font-family: var(--font-body);
   font-size: 18px;
   line-height: 1.78;
   color: var(--fg-body);
@@ -269,6 +277,8 @@ body {
   color: var(--fg);
   line-height: 1.33;
   scroll-margin-top: 80px;
+  /* 标题回到黑体：与衬线正文形成对比，技术标题更利落 */
+  font-family: var(--font-ui);
 }
 
 .prose h2 {
@@ -318,7 +328,7 @@ body {
 
 /* 代码：浅色模式下也用深底，与原站一致 */
 .prose code {
-  font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+  font-family: var(--font-mono);
   font-size: 0.875em;
   padding: 2px 6px;
   border-radius: 5px;
