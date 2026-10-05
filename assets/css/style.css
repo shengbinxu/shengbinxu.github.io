@@ -42,8 +42,8 @@
      不会被中文字体的西文字形接管（衬线中文字体的西文尤其难看） */
   --font-latin: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Helvetica, Arial;
   --font-ui:    var(--font-latin), "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
-  --font-body:  var(--font-latin), "Noto Serif SC Variable", "Noto Serif SC",
-                "Songti SC", "Source Han Serif SC", "SimSun", serif;
+  --font-body:  var(--font-latin), "Noto Serif SC", "Songti SC",
+                "Source Han Serif SC", "SimSun", serif;
   --font-mono:  ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
 }
 
@@ -302,7 +302,7 @@ body {
   margin: 28px 0 12px;
 }
 
-.prose strong { color: var(--fg); font-weight: 650; }
+.prose strong { color: var(--fg); font-weight: 600; }
 
 .prose ul, .prose ol { margin: 24px 0; padding-left: 1.6em; }
 
