@@ -6,6 +6,7 @@
   <title>{% if page.title and page.title != "首页" %}{{ page.title }} · {{ site.title }}{% else %}{{ site.title }}{% endif %}</title>
   {% if page.description %}<meta name="description" content="{{ page.description }}">{% elsif site.description %}<meta name="description" content="{{ site.description }}">{% endif %}
   <link rel="canonical" href="{{ page.url | absolute_url }}">
+  <meta name="google-site-verification" content="7CkP2LciK3irjyeFkET0WClVhPfruZuNDJcJWBpfjk8">
   <meta property="og:type" content="{% if page.layout == 'post' %}article{% else %}website{% endif %}">
   <meta property="og:title" content="{% if page.title and page.title != '首页' %}{{ page.title }}{% else %}{{ site.title }}{% endif %}">
   <meta property="og:description" content="{{ page.description | default: site.description }}">
