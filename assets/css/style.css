@@ -220,6 +220,7 @@ body {
 .tag {
   display: inline-block;
   padding: 4px 12px;
+  transition: background-color .15s cubic-bezier(.4, 0, .2, 1);
   border-radius: 9999px;
   background: var(--tag-bg);
   color: var(--tag-fg);
@@ -563,7 +564,7 @@ body {
   cursor: pointer;
   transition: color .15s ease, border-color .15s ease;
 }
-.tab:hover { color: var(--fg); }
+.tab:hover { color: #374151; }
 .tab.is-active {
   color: rgb(var(--theme-600));
   border-bottom-color: rgb(var(--theme-600));
@@ -573,17 +574,37 @@ body {
 /* 文章卡：白底 + 主题色描边 + 16px 圆角 + 24px 内边距 */
 .post-list { display: flex; flex-direction: column; gap: 20px; }
 .post-card {
+  position: relative;
   background: var(--card);
   border: 1px solid var(--border-theme);
   border-radius: 16px;
   padding: 24px;
-  transition: border-color .15s ease;
+  cursor: pointer;
+  /* yinwang：transition-all duration-300 + cubic-bezier(.4,0,.2,1) */
+  transition: box-shadow .3s cubic-bezier(.4, 0, .2, 1),
+              border-color .3s cubic-bezier(.4, 0, .2, 1);
 }
-.post-card:hover { border-color: rgb(var(--theme-400)); }
+.post-card:hover {
+  border-color: rgb(var(--theme-400));
+  /* Tailwind shadow-xl */
+  box-shadow: 0 20px 25px -5px rgb(0 0 0 / .1), 0 8px 10px -6px rgb(0 0 0 / .1);
+}
+html.dark .post-card:hover { border-color: rgb(var(--theme-600)); }
 
 .post-card-title { font-size: 24px; font-weight: 700; line-height: 1.33; margin: 0 0 12px; }
-.post-card-title a { color: var(--fg); text-decoration: none; }
-.post-card-title a:hover { color: var(--link); }
+.post-card-title a {
+  color: var(--fg);
+  text-decoration: none;
+  transition: color .3s cubic-bezier(.4, 0, .2, 1);
+}
+/* group-hover：悬停整张卡就变标题色，不是只悬停标题 */
+.post-card:hover .post-card-title a { color: rgb(var(--theme-700)); }
+html.dark .post-card:hover .post-card-title a { color: rgb(var(--theme-400)); }
+
+/* 整张卡可点：用标题链接的伪元素铺满卡片；
+   底行抬到上层，保证标签仍然可点。 */
+.post-card-title a::after { content: ''; position: absolute; inset: 0; }
+.post-card-foot { position: relative; z-index: 1; }
 
 .post-card-desc {
   color: var(--muted);
@@ -649,6 +670,9 @@ body {
   cursor: pointer;
   transition: background-color .15s ease, color .15s ease, border-color .15s ease;
 }
+a.tag:hover { background: rgb(var(--theme-200)); }
+html.dark a.tag:hover { background: #4b5563; }   /* gray-600 */
+
 .tag-btn:hover { background: rgb(var(--theme-200)); color: rgb(var(--theme-900)); }
 .tag-btn.active { background: rgb(var(--theme-600)); color: #fff; border-color: rgb(var(--theme-600)); }
 html.dark .tag-btn:hover { background: rgb(var(--theme-800)); color: rgb(var(--theme-100)); }
