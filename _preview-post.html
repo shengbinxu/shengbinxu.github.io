@@ -1,0 +1,1044 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/noto-serif-sc@5.3.0/400.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/noto-serif-sc@5.3.0/600.css">
+<style>/* ==========================================================================
+   版式参考：yinwang.org（王垠博客）
+   设计要点：暖白底 + 白卡、18px/1.78 正文、704px 阅读宽度、琥珀棕主题色、
+             H2 用主题色、目录左侧吸顶、标签胶囊
+   ========================================================================== */
+
+:root {
+  /* 琥珀棕主题色阶（对应原站 --theme-*） */
+  --theme-50:  252 249 242;
+  --theme-100: 247 240 223;
+  --theme-200: 239 227 195;
+  --theme-300: 228 207 154;
+  --theme-400: 218 181 128;
+  --theme-500: 212 165 116;
+  --theme-600: 189 142 93;
+  --theme-700: 165 118 71;
+  --theme-800: 139 93 50;
+  --theme-900: 111 70 32;
+
+  --bg:        rgb(var(--theme-50));
+  --card:      #ffffff;
+  --fg:        #111827;
+  --fg-body:   #374151;
+  --muted:     #6b7280;
+  --border:    rgb(0 0 0 / 0.07);
+  --link:      rgb(var(--theme-600));
+  --link-hover:rgb(var(--theme-700));
+  --heading-accent: rgb(var(--theme-600));
+  --tag-bg:    rgb(var(--theme-100));
+  --tag-fg:    rgb(var(--theme-800));
+  --code-bg:   #0d1117;
+  --code-fg:   #e6edf3;
+  --inline-code-bg: rgb(0 0 0 / 0.055);
+  --inline-code-fg: rgb(var(--theme-800));
+  --shadow:    0 1px 2px rgb(0 0 0 / 0.04), 0 4px 16px -8px rgb(111 70 32 / 0.12);
+
+  --measure:   704px;   /* 正文阅读宽度 */
+  --card-pad-x: 44px;   /* 文章卡片横向内边距；表格外扩量与之绑定 */
+  --toc-width: 200px;
+  --radius:    10px;
+
+  /* 字体：完全沿用 yinwang.org —— 纯系统字体，不加载任何 webfont */
+  --font-sans: ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji",
+               "Segoe UI Emoji", Segoe UI Symbol, "Noto Color Emoji";
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+               "Liberation Mono", "Courier New", monospace;
+  --font-ui:   var(--font-sans);
+  --font-body: var(--font-sans);
+}
+
+html.dark {
+  --bg:        #111827;
+  --card:      #1b2230;
+  --fg:        #f3f4f6;
+  --fg-body:   #d1d5db;
+  --muted:     #9ca3af;
+  --border:    rgb(255 255 255 / 0.09);
+  --link:      rgb(var(--theme-400));
+  --link-hover:rgb(var(--theme-300));
+  --heading-accent: rgb(var(--theme-400));
+  --tag-bg:    rgb(var(--theme-900) / 0.45);
+  --tag-fg:    rgb(var(--theme-300));
+  --inline-code-bg: rgb(255 255 255 / 0.09);
+  --inline-code-fg: rgb(var(--theme-300));
+  --shadow:    0 1px 2px rgb(0 0 0 / 0.3), 0 4px 20px -10px rgb(0 0 0 / 0.5);
+}
+
+* { box-sizing: border-box; }
+
+html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--fg-body);
+  font-family: var(--font-ui);
+  font-size: 16px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  text-autospace: normal;
+}
+
+/* ---------------------------------------------------------------- 顶部导航 */
+
+.site-nav {
+  border-bottom: 1px solid var(--border);
+  background: var(--bg);
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  backdrop-filter: saturate(180%) blur(8px);
+}
+
+.site-nav-inner {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 14px 24px;
+  display: flex;
+  align-items: center;
+  gap: 28px;
+}
+
+.site-title {
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--fg);
+  text-decoration: none;
+  letter-spacing: -0.01em;
+  white-space: nowrap;
+}
+
+.site-title:hover { color: var(--link); }
+
+.nav-links {
+  display: flex;
+  gap: 22px;
+  font-size: 15px;
+  font-weight: 500;
+}
+
+.nav-links a {
+  color: var(--fg);
+  text-decoration: none;
+}
+
+.nav-links a:hover { color: var(--link); }
+
+.nav-spacer { flex: 1; }
+
+.theme-toggle {
+  border: 1px solid var(--border);
+  background: var(--card);
+  color: var(--fg-body);
+  border-radius: 8px;
+  padding: 5px 10px;
+  font-size: 13px;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+.theme-toggle:hover { color: var(--link); border-color: var(--link); }
+
+/* ------------------------------------------------------------------ 布局 */
+
+.wrap {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 32px 24px 72px;
+}
+
+.layout {
+  display: flex;
+  gap: 32px;
+  align-items: flex-start;
+}
+
+.layout-main { flex: 1; min-width: 0; max-width: calc(var(--measure) + 88px); }
+
+/* ------------------------------------------------------------------ 卡片 */
+
+.card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+
+/* -------------------------------------------------------------- 首页列表 */
+
+.page-title {
+  font-size: 36px;
+  line-height: 1.11;
+  font-weight: 800;
+  color: var(--fg);
+  margin: 0 0 12px;
+  letter-spacing: -0.02em;
+}
+
+.page-intro {
+  color: var(--muted);
+  font-size: 16px;
+  margin: 0 0 32px;
+}
+
+.post-list { list-style: none; margin: 0; padding: 0; }
+
+.post-item { margin-bottom: 40px; }
+
+.post-item-title {
+  font-size: 24px;
+  line-height: 1.33;
+  font-weight: 700;
+  color: var(--fg);
+  text-decoration: none;
+  display: inline-block;
+}
+
+.post-item-title:hover { color: var(--link); }
+
+.post-item-desc {
+  color: var(--muted);
+  font-size: 16px;
+  margin: 8px 0 10px;
+}
+
+.post-item-meta {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  font-size: 14px;
+  color: var(--muted);
+}
+
+/* ---------------------------------------------------------------- 标签 */
+
+.tag {
+  display: inline-block;
+  padding: 3px 12px;
+  border-radius: 999px;
+  background: var(--tag-bg);
+  color: var(--tag-fg);
+  font-size: 13px;
+  line-height: 1.5;
+  text-decoration: none;
+}
+
+/* ------------------------------------------------------------- 文章正文 */
+
+.article-head { margin-bottom: 24px; }
+
+.article-title {
+  font-family: var(--font-body);
+  font-size: 36px;
+  line-height: 1.11;
+  font-weight: 800;
+  color: var(--fg);
+  margin: 0 0 16px;
+  letter-spacing: -0.02em;
+}
+
+.article-meta {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  font-size: 14px;
+  color: var(--muted);
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--border);
+}
+
+.article-meta .tag-row {
+  margin-left: auto;
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.prose {
+  /* 注意：这里不设 max-width。改用「子元素限宽」的方式，
+     让段落保持 704px 阅读宽度，而表格能用满卡片宽度——
+     否则宽表格会被 704px 挤到溢出裁切。 */
+  max-width: none;
+  font-family: var(--font-body);
+  font-size: 18px;
+  line-height: 1.78;
+  color: var(--fg-body);
+}
+
+.prose > * { max-width: var(--measure); }
+
+/* 表格与代码块不参与限宽，可用满卡片 */
+.prose > table {
+  /* 表格吃掉卡片左右内边距，比正文宽 2×内边距，减少长路径被从中间劈开。
+     外扩量必须与 --card-pad-x 绑定，否则窄屏下会把页面撑出横向滚动。 */
+  width: calc(100% + 2 * var(--card-pad-x));
+  margin-left: calc(-1 * var(--card-pad-x));
+  max-width: none;
+  font-size: 0.84em;
+}
+.prose > pre { max-width: 100%; }
+
+.prose p { margin: 24px 0; }
+
+.prose a {
+  color: var(--link);
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.prose a:hover { color: var(--link-hover); text-decoration: underline; }
+
+.prose h1, .prose h2, .prose h3, .prose h4 {
+  color: var(--fg);
+  line-height: 1.33;
+  scroll-margin-top: 80px;
+  /* 与正文同族（宋体）：内容层统一，避免目录/标题/正文三种字体并置 */
+  font-family: var(--font-body);
+}
+
+.prose h2 {
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--heading-accent);
+  margin: 48px 0 20px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--border);
+}
+
+.prose h3 {
+  font-size: 20px;
+  font-weight: 600;
+  margin: 36px 0 14px;
+}
+
+.prose h4 {
+  font-size: 18px;
+  font-weight: 600;
+  margin: 28px 0 12px;
+}
+
+.prose strong { color: var(--fg); font-weight: 600; }
+
+.prose ul, .prose ol { margin: 24px 0; padding-left: 1.6em; }
+
+.prose li { margin: 8px 0; }
+
+.prose li > p { margin: 12px 0; }
+
+.prose blockquote {
+  margin: 24px 0;
+  padding: 4px 0 4px 20px;
+  border-left: 3px solid rgb(var(--theme-300));
+  color: var(--muted);
+}
+
+.prose blockquote p:first-child { margin-top: 0; }
+.prose blockquote p:last-child { margin-bottom: 0; }
+
+.prose hr {
+  border: 0;
+  border-top: 1px solid var(--border);
+  margin: 48px 0;
+}
+
+/* 代码：浅色模式下也用深底，与原站一致 */
+.prose code {
+  font-family: var(--font-mono);
+  font-size: 0.875em;
+  padding: 2px 6px;
+  border-radius: 5px;
+  background: var(--inline-code-bg);
+  color: var(--inline-code-fg);
+  font-weight: 600;
+}
+
+.prose pre {
+  margin: 28px 0;
+  padding: 18px 20px;
+  border-radius: 8px;
+  background: var(--code-bg);
+  color: var(--code-fg);
+  overflow-x: auto;
+  font-size: 0.875em;
+  line-height: 1.7;
+}
+
+.prose pre code {
+  background: none;
+  color: inherit;
+  padding: 0;
+  font-weight: 400;
+  font-size: inherit;
+}
+
+.prose table {
+  border-collapse: collapse;
+  box-sizing: border-box;
+  line-height: 1.7;
+  display: block;
+  overflow-x: auto;
+}
+
+.prose table thead { border-bottom: 1px solid var(--border); }
+
+.prose table th {
+  color: var(--fg);
+  font-weight: 600;
+  text-align: left;
+  padding: 10px 14px 10px 0;
+  white-space: nowrap;
+}
+
+.prose table td {
+  padding: 10px 14px 10px 0;
+  border-bottom: 1px solid var(--border);
+  vertical-align: top;
+}
+
+.prose img { max-width: 100%; height: auto; margin: 28px 0; border-radius: 6px; }
+
+/* ------------------------------------------------------------ 目录侧栏 */
+
+.toc {
+  font-family: var(--font-body);
+  width: var(--toc-width);
+  flex-shrink: 0;
+  position: sticky;
+  top: 88px;
+  padding: 18px 20px;
+  font-size: 14px;
+  max-height: calc(100vh - 120px);
+  overflow-y: auto;
+}
+
+.toc-title {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--fg);
+  margin: 0 0 10px;
+}
+
+.toc ul { list-style: none; margin: 0; padding: 0; }
+
+.toc li { margin: 7px 0; line-height: 1.5; }
+
+.toc a {
+  color: var(--muted);
+  text-decoration: none;
+  display: block;
+}
+
+.toc a:hover { color: var(--link); }
+
+.toc a.active { color: var(--link); font-weight: 600; }
+
+.toc .toc-l3 a { padding-left: 14px; font-size: 13px; }
+
+/* ------------------------------------------------------------------ 页脚 */
+
+.site-footer {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 24px;
+  border-top: 1px solid var(--border);
+  color: var(--muted);
+  font-size: 14px;
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.site-footer a { color: var(--muted); text-decoration: none; }
+.site-footer a:hover { color: var(--link); }
+
+/* ------------------------------------------------------------ 响应式 */
+
+@media (max-width: 900px) {
+  .toc { display: none; }
+  .article-title, .page-title { font-size: 28px; }
+  .prose { font-size: 17px; }
+  .prose h2 { font-size: 21px; }
+}
+
+@media (max-width: 600px) {
+  .wrap { padding: 20px 16px 56px; }
+  .site-nav-inner { padding: 12px 16px; gap: 16px; }
+  .site-title { font-size: 18px; }
+  .nav-links { gap: 14px; font-size: 14px; }
+  .article-title, .page-title { font-size: 24px; }
+  .post-item-title { font-size: 20px; }
+  .prose { font-size: 16px; line-height: 1.75; }
+  .prose p { margin: 20px 0; }
+  .article-meta .tag-row { margin-left: 0; width: 100%; }
+}
+
+/* -------------------------------------------------- 代码高亮（Rouge 映射到 github-dark） */
+
+.highlight .c, .highlight .cm, .highlight .c1 { color: #8b949e; font-style: italic; }
+.highlight .k, .highlight .kd, .highlight .kn, .highlight .kc, .highlight .kr { color: #ff7b72; }
+.highlight .s, .highlight .s1, .highlight .s2, .highlight .sb, .highlight .sc { color: #a5d6ff; }
+.highlight .mi, .highlight .mf, .highlight .m { color: #79c0ff; }
+.highlight .nf, .highlight .fm { color: #d2a8ff; }
+.highlight .nx, .highlight .nb { color: #ffa657; }
+.highlight .o, .highlight .ow { color: #ff7b72; }
+.highlight .nt { color: #7ee787; }
+.highlight .err { color: inherit; background: none; }
+
+/* 文章卡片内边距 */
+.article-card { padding: 40px var(--card-pad-x) 48px; }
+
+@media (max-width: 600px) {
+  :root { --card-pad-x: 18px; }
+  .article-card { padding: 24px var(--card-pad-x) 32px; }
+}
+
+/* ------------------------------------------------- 首页：筛选与排序 */
+
+.filters {
+  padding: 22px 26px;
+  margin-bottom: 40px;
+}
+
+.filter-row { display: flex; align-items: flex-start; gap: 16px; }
+.filter-row + .filter-row { margin-top: 18px; }
+
+.filter-label {
+  flex-shrink: 0;
+  width: 84px;
+  padding-top: 6px;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--fg);
+}
+
+.filter-select {
+  font-family: var(--font-ui);
+  font-size: 15px;
+  color: var(--fg-body);
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 7px 12px;
+  min-width: 180px;
+  cursor: pointer;
+}
+
+.filter-select:hover { border-color: var(--link); }
+
+.tag-cloud { display: flex; flex-wrap: wrap; gap: 8px; }
+
+/* 标签同时用于 <a>（文章元信息）和 <button>（筛选器），统一外观 */
+.tag-btn {
+  font-family: var(--font-ui);
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: background-color .15s ease, color .15s ease, border-color .15s ease;
+}
+
+.tag-btn:hover {
+  background: rgb(var(--theme-200));
+  color: rgb(var(--theme-900));
+}
+
+.tag-btn.active {
+  background: rgb(var(--theme-600));
+  color: #fff;
+  border-color: rgb(var(--theme-600));
+}
+
+html.dark .tag-btn:hover { background: rgb(var(--theme-800)); color: rgb(var(--theme-100)); }
+html.dark .tag-btn.active { background: rgb(var(--theme-400)); color: #1b2230; border-color: rgb(var(--theme-400)); }
+
+.filter-empty { color: var(--muted); font-size: 15px; padding: 12px 0; }
+
+@media (max-width: 600px) {
+  .filters { padding: 16px 18px; }
+  .filter-row { flex-direction: column; gap: 8px; }
+  .filter-label { width: auto; padding-top: 0; }
+  .filter-select { width: 100%; }
+}
+
+/* 表格单元格内允许长串在必要时断行。
+   否则 viking://user/default/resources/nanobot 这类长路径会把表格
+   的最小宽度撑到 800px 以上，逼出横向滚动条。
+   用 anywhere 而非 break-word：只有 anywhere 会影响 min-content 计算。 */
+.prose table th,
+.prose table td { overflow-wrap: anywhere; }
+
+.prose table code { overflow-wrap: anywhere; }
+</style></head><body><nav class="site-nav"><div class="site-nav-inner">
+<a class="site-title" href="#">大斌的技术笔记</a>
+<div class="nav-links"><a href="#">文章</a><a href="#">订阅</a><a href="#">GitHub</a></div>
+<span class="nav-spacer"></span><button class="theme-toggle" id="theme-toggle">深色</button>
+</div></nav><div class="wrap"><div class="layout">
+<aside class="toc card" id="toc" hidden><div class="toc-title">目录</div><ul id="toc-list"></ul></aside>
+<div class="layout-main"><article class="card article-card">
+<header class="article-head">
+<h1 class="article-title">OpenViking 代码问答对照实验：本地直读、语义检索、VikingBot 三组实测</h1>
+<div class="article-meta"><time>2026 年 10 月 5 日</time><span class="tag-row"><span class="tag">AI</span><span class="tag">代码问答</span><span class="tag">OpenViking</span><span class="tag">评测</span></span></div>
+</header>
+<div class="prose" id="article-body"><h2 id="_1">一、需求背景</h2>
+<p>我们要做的是一个<strong>基于多仓库代码的问答 Agent</strong>，落在群里，让不写代码的人也能直接问代码。</p>
+<p>使用者主要是三类：</p>
+<table>
+<thead>
+<tr>
+<th>角色</th>
+<th>典型问题</th>
+<th>现状</th>
+<th>痛点</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>产品经理</td>
+<td>"这个需求现在是怎么实现的？改动会波及哪几个服务？"</td>
+<td>群里 @ 研发口头问</td>
+<td>打断研发；回答零散、口径不一</td>
+</tr>
+<tr>
+<td>新人</td>
+<td>"这个功能在哪个仓库、哪个模块？这条链路经过哪几个服务？"</td>
+<td>自己 grep + 翻文档 + 问人</td>
+<td>熟悉期被拉长；grep 在几十个仓库里基本失效</td>
+</tr>
+<tr>
+<td>值班 / 排障</td>
+<td>"这个配置项在哪里生效？谁在消费这个 topic？"</td>
+<td>靠记忆和搜索</td>
+<td>排障时最贵的是"找人问"那几分钟</td>
+</tr>
+</tbody>
+</table>
+<p>这三类问题有个共同点：<strong>答案散落在多个仓库里，而提问者不掌握仓库边界</strong>。他只知道业务语义——"支付回调"——不知道对应的代码叫 <code>PaymentCallbackHandler</code> 还是 <code>pay_notify_consumer</code>。关键词搜索在这里几乎帮不上忙，这正是语义检索该发力的地方。</p>
+<p>不过方案要落地，得先回答两个问题：<strong>回答能不能变快，质量会不会掉。</strong> 这两个不清楚，后面推不动。</p>
+<p>火山引擎开发者社区那篇<a href="https://developer.volcengine.com/articles/7622857325355171849">《OpenViking 实战教程：搭建多仓库代码语义检索系统》</a>给了我很强的参考：它直接用 157 个真实仓库做了 10 道题的三组对照，结论是 VikingBot 最好，"较好"评级 90%。那是贴近真实规模的一次验证。</p>
+<p>我的做法不一样，是<strong>先退一步做可控验证</strong>：把语料缩到单个仓库，把问题设计成答案可客观判定，先把"语义检索本身值多少、质量会不会掉"这两个变量量出来。多仓库场景留到后面（第六节第 3 小节会拿官方的数据做对照）。</p>
+<h2 id="_2">二、实验设计</h2>
+<p>语料选 <strong>nanobot</strong>（HKUDS 的开源 Agent 框架，Python，1686 个文件 / 20MB / commit <code>13cec01</code>）。选它的理由：体量适中，全量索引进 OpenViking 只花了 316 秒、299 万 token，成本可控；同时它有真实的复杂度，四道题都能落到具体源码上。</p>
+<p>三组设置如下：</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>对照组</th>
+<th>实验组 1</th>
+<th>实验组 2</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>做法</td>
+<td>本地直读</td>
+<td>Agent + OpenViking</td>
+<td>VikingBot</td>
+</tr>
+<tr>
+<td>代码来源</td>
+<td>本地 clone <code>/tmp/nanobot-bench/nanobot</code></td>
+<td>仅 OV 语料 <code>viking://user/default/resources/nanobot</code></td>
+<td>仅 OV 语料</td>
+</tr>
+<tr>
+<td>Agent 实体</td>
+<td>dsh 子代理（<code>read</code>/<code>grep</code>/<code>glob</code>/<code>bash</code>）</td>
+<td>dsh 子代理 + <code>mcp__openviking__*</code></td>
+<td>VikingBot（<code>ov chat</code>，与 <code>/studio/vikingbot</code> 同一 AgentLoop）</td>
+</tr>
+<tr>
+<td>工具约束</td>
+<td>禁用 OV 工具</td>
+<td>仅允许 OV 工具，禁用本地文件工具</td>
+<td>无显式约束</td>
+</tr>
+<tr>
+<td>磁盘上有仓库副本</td>
+<td>有</td>
+<td><strong>无</strong></td>
+<td><strong>无</strong></td>
+</tr>
+</tbody>
+</table>
+<p>实验组 1 是这次设计的关键。官方那篇的对照组（本地 workspace）和实验组 2（VikingBot）同时变了两个量：<strong>检索来源</strong>和<strong>Agent 框架</strong>。只比这两组，无法判断差异来自语义检索本身，还是来自 bot 的工作方式。实验组 1 固定 Agent 框架不变、只把检索来源换成 OpenViking，就把这个变量分离出来了。</p>
+<h2 id="_3">三、题目</h2>
+<p>四道题都要求跨 4 个以上文件才能答完整，且答案可以客观判定：</p>
+<ol>
+<li><strong>上下文超窗</strong>：一次请求的上下文即将超出模型窗口时，nanobot 依次做了哪些处置？触发判定在哪个环节、裁剪与保留的优先级、压缩产物如何回到后续请求。</li>
+<li><strong>消息链路</strong>：一条来自渠道的消息从被收到到回复写回，经过哪些对象与队列？同一 session 上一条回复尚未发出时又来一条，会发生什么。</li>
+<li><strong>状态隔离</strong>：同一进程内多个 AgentLoop / 多个 session 时，哪些状态独享、哪些共享？给一个"不隔离就会出错"的具体例子。</li>
+<li><strong>模型优先级</strong>：<code>modelPresets</code>、全局 provider 配置、session 级模型选择三者同时存在时，谁说了算。</li>
+</ol>
+<p>第四题埋了前提陷阱。题干把三者写成并列的三层，但源码里它们不在同一维度上（<code>modelPresets</code> 是候选项目录，<code>providers.*</code> 是横切凭据层，真正构成覆盖关系的只有"实例默认 vs session 级"）。能否识破这一点，是区分作答深度的信号。</p>
+<h2 id="_4">四、评分方法</h2>
+<p><strong>先定标准，再跑题。</strong> 四个独立子代理分别精读源码，每道题产出 10 条"必中要点"，每条附 <code>文件:行号</code> 证据。这份清单在跑题之前定稿，避免事后倒推标准。</p>
+<p><strong>物理隔离。</strong> 实验组 1、2 需要证明"没有本地仓库也能答好"，所以跑之前把仓库删掉，答案清单也压缩改名藏到别处。事后审计两个实验组的工具调用日志，确认零次触碰封存路径。</p>
+<p><strong>匿名评分。</strong> 收齐答案后，把引用格式归一化（<code>viking://.../bus/queue.py</code> → <code>bus/queue.py</code>）、随机打乱顺序、隐去来源，交给未参与作答的子代理评分。评分纪律写死在提示词里：不因篇幅长加分、不因提到某种检索工具加减分、某维度相当就写"相当"。</p>
+<p>指标：<strong>关键结论命中率</strong>（10 条要点命中几条，部分命中算 0.5）、<strong>引用可核对率</strong>（抽 8 条引用到源码逐条核实）、<strong>事实错误数</strong>。</p>
+<h2 id="_5">五、结果</h2>
+<h3 id="_6">耗时</h3>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>四题总耗时</th>
+<th>相对对照组</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>对照组（本地直读）</td>
+<td>657 秒</td>
+<td>1.00×</td>
+</tr>
+<tr>
+<td>实验组 1（Agent + OV）</td>
+<td>588 秒</td>
+<td>1.12×</td>
+</tr>
+<tr>
+<td><strong>实验组 2（VikingBot）</strong></td>
+<td><strong>241 秒</strong></td>
+<td><strong>2.73×</strong></td>
+</tr>
+</tbody>
+</table>
+<h3 id="_7">质量</h3>
+<table>
+<thead>
+<tr>
+<th>题目</th>
+<th>对照组</th>
+<th>实验组 1</th>
+<th>实验组 2</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>上下文超窗</td>
+<td>10</td>
+<td>10</td>
+<td>9.5</td>
+</tr>
+<tr>
+<td>消息链路</td>
+<td>9</td>
+<td>7.0</td>
+<td>2.5 *</td>
+</tr>
+<tr>
+<td>状态隔离</td>
+<td>10</td>
+<td>9</td>
+<td>9</td>
+</tr>
+<tr>
+<td>模型优先级</td>
+<td>9.5</td>
+<td>9</td>
+<td>8.0</td>
+</tr>
+<tr>
+<td><strong>平均</strong></td>
+<td><strong>9.63</strong></td>
+<td><strong>8.75</strong></td>
+<td><strong>7.25</strong></td>
+</tr>
+<tr>
+<td>引用可核对率（Q1–Q4）</td>
+<td>8/8、8/8、7/8、8/8</td>
+<td>7/8、8/8、7/8、7/8</td>
+<td>8/8、<strong>0/8</strong>、6/8、5/8</td>
+</tr>
+</tbody>
+</table>
+<p>* 该格受一次环境干扰影响（bot 读到了本机同源的 <code>vikingbot</code> 安装包，而非索引语料），排除后为 7.5 分。这属于部署配置问题，不是检索能力问题，后文第六节会说明怎么防。</p>
+<h3 id="_8">过程量</h3>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>对照组</th>
+<th>实验组 1</th>
+<th>实验组 2</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>工具调用次数</td>
+<td>223</td>
+<td>203</td>
+<td><strong>127</strong></td>
+</tr>
+<tr>
+<td>读取字节数</td>
+<td>453 KB</td>
+<td>666 KB</td>
+<td>未上报</td>
+</tr>
+<tr>
+<td>把关键机制说反</td>
+<td>0 处</td>
+<td>0 处</td>
+<td><strong>4 处</strong></td>
+</tr>
+</tbody>
+</table>
+<h2 id="_9">六、分析与发现</h2>
+<h3 id="1-vikingbot-273">1. VikingBot 的 2.73 倍来自"做得更少"，不是"检索更快"</h3>
+<p>把工具调用次数和耗时摆在一起就很清楚了：VikingBot 全程只调了 <strong>127 次</strong>工具，对照组 223 次，实验组 1 是 203 次。它的答案体量也最小（27.5 KB vs 对照组的 77.6 KB）。</p>
+<p>也就是说，VikingBot 快是因为它干的活最少。</p>
+<p>那 OpenViking 的语义检索本身值多少？看实验组 1——<strong>同一个 Agent 框架，只把检索来源换掉，快了 11%</strong>。语义检索的速度收益就这么大。它真正的好处不是快，而是<strong>代码不在磁盘上也能读</strong>，本轮实验里它读了 666 KB，比本地直读的 453 KB 还多。</p>
+<h3 id="2">2. 速度和质量是同一条标尺的两端</h3>
+<p>按耗时排序：VikingBot（241 秒，7.25 分）→ 实验组 1（588 秒，8.75 分）→ 对照组（657 秒，9.63 分）。</p>
+<p>基本单调。答得越细越慢，没有免费的午餐。</p>
+<p>这个排序其实是个好消息：它说明"VikingBot 质量偏低"不是能力上限，而是<strong>当前的工作量设置偏保守</strong>。想提质量应该调框架层——提高检索和阅读的轮次预算、在系统提示里强制"引用之前必须把源码打开核对"。积木是够的，实验组 1 连本地仓库都没有，照样拿到 8.75 分且零机制判反。</p>
+<h3 id="3">3. 和官方测评的对照</h3>
+<p>官方那篇的结论是 VikingBot 最好（"较好"评级 90%，对照组只有 40%）。我的结果里 VikingBot 质量最低。这并不矛盾，因为两边的设定差得很远：</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>官方测评</th>
+<th>本次实验</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>语料规模</td>
+<td>157 个代码仓库</td>
+<td>1 个仓库、1686 文件</td>
+</tr>
+<tr>
+<td>题目数量</td>
+<td>10 题（团队真实场景）</td>
+<td>4 题（跨文件机制分析）</td>
+</tr>
+<tr>
+<td>评分方式</td>
+<td>问题负责人评"较好/一般/较差"</td>
+<td>事前要点清单 + 匿名判分</td>
+</tr>
+<tr>
+<td>对照组</td>
+<td>本地 workspace + OpenCode</td>
+<td>本地 clone + dsh 子代理</td>
+</tr>
+</tbody>
+</table>
+<p>官方测的是<strong>跨仓库、需求理解类</strong>的问题，那里语义检索的价值最大——grep 在一百多个仓库里翻"支付回调"确实找不到北。我测的是<strong>单仓库、机制分析类</strong>问题，答案要精确到文件和行号，这种任务里"多读几遍源码"比"检索得准"更重要，所以工作量的差异压过了检索方式的差异。</p>
+<h2 id="_10">七、这套方法给出的三条启发</h2>
+<p><strong>第一，先给你的问题分类，再决定要不要上语义检索。</strong></p>
+<p>判断标准很简单：<strong>答案能不能靠"多读几遍代码"逼近</strong>。</p>
+<ul>
+<li>跨仓库、意图模糊（"支付回调在哪"、"这个需求的实现思路"）——搜索空间太大，本地 grep 的召回率上不去，语义检索的收益最大。</li>
+<li>单仓库、机制精确（"这个状态机怎么流转"、"为什么这里加锁"）——答案就藏在几个文件里，多读几轮就能拿到，检索方式的影响很小。</li>
+</ul>
+<p>我们团队最初想在单仓库场景上验证收益，测下来发现<strong>收益主要来自框架的工作量配置，而不是检索方式本身</strong>。这个结论改变了我们的推进顺序。</p>
+<p><strong>第二，把"检索来源"和"Agent 框架"分开测，否则你会归因错误。</strong></p>
+<p>这一条是整套方法里最值得复用的部分。如果只跑官方那种"对照组 vs VikingBot"的两组设计，你会看到 2.73 倍的提速，然后自然地把它归功于语义检索。加了固定框架的第三组之后才发现，语义检索只值 11%，其余全是"干得少"。</p>
+<p>任何涉及两个变量的对照实验都有这个陷阱：<strong>换的东西越多，测完越不知道自己测到了什么。</strong></p>
+<p><strong>第三，部署时的两个坑会吃掉你的收益，而且都不在文档里。</strong></p>
+<p>一是<strong>宿主环境不能有与被索引代码库同源的副本</strong>。这次实验组 2 在"消息链路"题上只拿到 2.5 分，就是因为它读到了本机安装的同源包而不是索引语料——行号全错。系统提示里必须写死"只能依据索引语料作答"。</p>
+<p>二是<strong>跑评测必须锁定 commit</strong>。我隔天重新拉代码，上游已经推了几个提交，一个核心文件从 2568 行长到 2601 行，此前所有行号引用当场作废。用归档包按 commit 拉才对齐。</p>
+<h2 id="_11">八、成本参考</h2>
+<p><strong>索引成本比想象中低。</strong> 1686 个文件、299 万 token、316 秒，折算约<strong>每个文件 1800 token</strong>。一万个文件大约 1800 万 token、四十分钟。</p>
+<p>成本几乎全在大模型摘要上（占 token 总量的 58–83%），不在向量化——想省钱应该换便宜的摘要模型，换嵌入服务没用。</p>
+<p>对 157 个仓库那种规模，这是一次性投入，摊到日常问答里很快就能回来。</p>
+<h2 id="_12">九、局限</h2>
+<p><strong>单次运行，噪声已量化。</strong> 每格跑一次。实验组 1 测过两轮，均值分别是 9.13 和 8.75，<strong>极差 0.38 分</strong>。小于这个幅度的差距不该当结论——比如 Q1 对照组 10 分、实验组 2 是 9.5 分，就落在噪声里，我不把它当作有效差异。</p>
+<p><strong>实验组 1 是"无本地代码"场景的近似，不是等价物。</strong> 它仍与对照组跑在同一个 Agent 宿主里，只是抽掉了磁盘副本；真实产品里 Agent 还隔着群聊协议、鉴权和用户身份层，那些环节本轮完全没有覆盖。</p>
+<p><strong>样本量支撑不了普适结论。</strong> 4 道题 × 单轮，只能作为方向性证据。</p>
+<p><strong>最关键的一条：本轮语料只有一个仓库，而真实需求是多仓库。</strong> 1686 个文件放在几十上百个仓库里，召回难度完全不是一个量级——"支付回调"这类业务语义问题，在单仓库里靠 grep 加人工翻还能兜住，在多仓库里基本失效。<strong>所以本轮数据不能直接外推到多仓库场景</strong>；第六节第 3 小节拿官方的 157 仓库数据做参照，但那不是我自己的实测。</p>
+<h2 id="_13">十、复现</h2>
+<pre><code class="language-bash"># 语料准备（约 5 分钟、299 万 token）
+# add_resource(path=&quot;https://github.com/HKUDS/nanobot.git&quot;,
+#              to=&quot;viking://~/resources/nanobot&quot;)
+
+# 对照组：克隆后由子代理作答（限 read/grep/glob/bash）
+git clone --depth 1 https://github.com/HKUDS/nanobot.git /tmp/nanobot-bench/nanobot
+
+# 实验组：删掉本地 clone，再用 Agent / VikingBot 逐题作答
+ov chat -s bench-Q1 -m &quot;$(cat q1.txt)&quot; --no-format
+# 工具调用序列从 ~/.openviking/workspace/bot/logs/vikingbot.log 的 [TOOL_CALL] 提取
+</code></pre>
+<p>评测环境：OpenViking 0.4.23 + VikingBot（<code>--with-bot</code>），模型 deepseek-flash，嵌入腾讯云 TokenHub 1024 维。语料 commit <code>13cec01</code>，<strong>上游此后已推进，复现必须锁定该 commit</strong>。</p>
+<hr />
+<h3 id="_14">参考</h3>
+<ul>
+<li><a href="https://developer.volcengine.com/articles/7622857325355171849">OpenViking 实战教程：搭建多仓库代码语义检索系统，赋能 AI 助手 &amp; OpenClaw 记忆插件 2.0 升级</a> — 火山引擎开发者社区，本文的三组实验结构参考了这篇的设计</li>
+<li><a href="https://github.com/HKUDS/nanobot">HKUDS/nanobot</a> — 本次实验语料</li>
+</ul></div>
+</article></div></div></div><footer class="site-footer"><span>© 2026 大斌</span><a href="#">文章</a><a href="#">RSS</a><a href="#">GitHub</a></footer>
+<script>// 主题切换
+(function () {
+  var btn = document.getElementById('theme-toggle');
+  if (!btn) return;
+  var root = document.documentElement;
+
+  function sync() {
+    btn.textContent = root.classList.contains('dark') ? '浅色' : '深色';
+  }
+  sync();
+
+  btn.addEventListener('click', function () {
+    root.classList.toggle('dark');
+    try { localStorage.setItem('theme', root.classList.contains('dark') ? 'dark' : 'light'); } catch (e) {}
+    sync();
+  });
+})();
+
+// 目录：扫描正文 h2/h3 生成，并随滚动高亮
+(function () {
+  var toc = document.getElementById('toc');
+  var list = document.getElementById('toc-list');
+  var body = document.getElementById('article-body');
+  if (!toc || !list || !body) return;
+
+  var heads = [].slice.call(body.querySelectorAll('h2'));
+  if (heads.length < 2) return;
+
+  var used = {};
+  heads.forEach(function (h) {
+    // 生成稳定锚点
+    var id = h.id;
+    if (!id) {
+      id = h.textContent.trim()
+        .replace(/[^\w\u4e00-\u9fa5]+/g, '-')
+        .replace(/^-+|-+$/g, '')
+        .toLowerCase() || 'section';
+      var base = id, n = 2;
+      while (used[id] || document.getElementById(id)) { id = base + '-' + n++; }
+      h.id = id;
+    }
+    used[id] = true;
+
+    var li = document.createElement('li');
+    if (h.tagName === 'H3') li.className = 'toc-l3';
+    var a = document.createElement('a');
+    a.href = '#' + id;
+    a.textContent = h.textContent.trim();
+    li.appendChild(a);
+    list.appendChild(li);
+  });
+
+  toc.hidden = false;
+
+  var links = [].slice.call(list.querySelectorAll('a'));
+  var targets = links.map(function (a) { return document.getElementById(a.getAttribute('href').slice(1)); });
+
+  function highlight() {
+    var y = window.scrollY + 120;
+    var idx = 0;
+    for (var i = 0; i < targets.length; i++) {
+      if (targets[i] && targets[i].offsetTop <= y) idx = i;
+    }
+    links.forEach(function (a, i) { a.classList.toggle('active', i === idx); });
+  }
+
+  var ticking = false;
+  window.addEventListener('scroll', function () {
+    if (ticking) return;
+    ticking = true;
+    requestAnimationFrame(function () { highlight(); ticking = false; });
+  }, { passive: true });
+
+  highlight();
+})();
+
+// 首页：标签筛选 + 排序
+(function () {
+  var list = document.getElementById('post-list');
+  var cloud = document.getElementById('tag-cloud');
+  var sortSel = document.getElementById('sort-select');
+  var empty = document.getElementById('filter-empty');
+  if (!list) return;
+
+  var items = [].slice.call(list.querySelectorAll('.post-item'));
+
+  // 每篇文章的标签
+  items.forEach(function (li) {
+    var raw = (li.getAttribute('data-tags') || '').trim();
+    li._tags = raw ? raw.split(',').map(function (s) { return s.trim(); }).filter(Boolean) : [];
+    li._date = li.getAttribute('data-date') || '';
+    li._title = li.getAttribute('data-title') || '';
+  });
+
+  // ---------- 排序 ----------
+  function applySort(mode) {
+    var sorted = items.slice();
+    sorted.sort(function (a, b) {
+      if (mode === 'title') return a._title.localeCompare(b._title, 'zh-Hans-CN');
+      var da = Date.parse(a._date) || 0, db = Date.parse(b._date) || 0;
+      return mode === 'old' ? da - db : db - da;
+    });
+    sorted.forEach(function (li) { list.appendChild(li); });
+  }
+
+  if (sortSel) {
+    sortSel.addEventListener('change', function () { applySort(sortSel.value); });
+  }
+
+  // ---------- 标签云（从文章列表统计，无需服务端插件）----------
+  var counts = {};
+  items.forEach(function (li) {
+    li._tags.forEach(function (t) { counts[t] = (counts[t] || 0) + 1; });
+  });
+
+  var tags = Object.keys(counts).sort(function (a, b) {
+    return counts[b] - counts[a] || a.localeCompare(b, 'zh-Hans-CN');
+  });
+
+  var current = null;
+
+  function renderCloud() {
+    if (!cloud) return;
+    cloud.innerHTML = '';
+    var all = document.createElement('button');
+    all.type = 'button';
+    all.className = 'tag tag-btn' + (current === null ? ' active' : '');
+    all.textContent = '全部 (' + items.length + ')';
+    all.addEventListener('click', function () { select(null, true); });
+    cloud.appendChild(all);
+
+    tags.forEach(function (t) {
+      var b = document.createElement('button');
+      b.type = 'button';
+      b.className = 'tag tag-btn' + (current === t ? ' active' : '');
+      b.textContent = t + ' (' + counts[t] + ')';
+      b.addEventListener('click', function () { select(t, true); });
+      cloud.appendChild(b);
+    });
+  }
+
+  // ---------- 筛选 ----------
+  function select(tag, pushUrl) {
+    current = tag;
+    var shown = 0;
+    items.forEach(function (li) {
+      var hit = tag === null || li._tags.indexOf(tag) !== -1;
+      li.hidden = !hit;
+      if (hit) shown++;
+    });
+    if (empty) empty.hidden = shown !== 0;
+    renderCloud();
+    if (pushUrl && window.history && window.history.replaceState) {
+      var url = location.pathname + (tag === null ? '' : '?tag=' + encodeURIComponent(tag));
+      window.history.replaceState(null, '', url);
+    }
+  }
+
+  // ---------- 初始化：读 URL 上的 ?tag= ----------
+  var m = location.search.match(/[?&]tag=([^&]*)/);
+  var initial = m ? decodeURIComponent(m[1].replace(/\+/g, ' ')) : null;
+  if (initial && tags.indexOf(initial) === -1) initial = null;
+  select(initial, false);
+  applySort(sortSel ? sortSel.value : 'new');
+})();
+</script></body></html>

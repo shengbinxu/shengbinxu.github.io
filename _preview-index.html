@@ -1,4 +1,8 @@
-/* ==========================================================================
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/noto-serif-sc@5.3.0/400.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/noto-serif-sc@5.3.0/600.css">
+<style>/* ==========================================================================
    版式参考：yinwang.org（王垠博客）
    设计要点：暖白底 + 白卡、18px/1.78 正文、704px 阅读宽度、琥珀棕主题色、
              H2 用主题色、目录左侧吸顶、标签胶囊
@@ -569,3 +573,182 @@ html.dark .tag-btn.active { background: rgb(var(--theme-400)); color: #1b2230; b
 .prose table td { overflow-wrap: anywhere; }
 
 .prose table code { overflow-wrap: anywhere; }
+</style></head><body><nav class="site-nav"><div class="site-nav-inner">
+<a class="site-title" href="#">大斌的技术笔记</a>
+<div class="nav-links"><a href="#">文章</a><a href="#">订阅</a><a href="#">GitHub</a></div>
+<span class="nav-spacer"></span><button class="theme-toggle" id="theme-toggle">深色</button>
+</div></nav><div class="wrap"><h1 class="page-title">博客文章</h1><p class="page-intro">共 1 篇，按时间倒序。</p>
+<div class="filters card">
+<div class="filter-row"><label class="filter-label" for="sort-select">排序方式</label>
+<select id="sort-select" class="filter-select"><option>最新发布</option><option>最早发布</option><option>按标题</option></select></div>
+<div class="filter-row"><div class="filter-label">按标签筛选</div><div class="tag-cloud" id="tag-cloud"><button class="tag tag-btn">AI (1)</button><button class="tag tag-btn">代码问答 (1)</button><button class="tag tag-btn">OpenViking (1)</button><button class="tag tag-btn">评测 (1)</button></div></div></div><ul class="post-list" id="post-list"><li class="post-item" data-date="2026-10-05" data-title="OpenViking 代码问答对照实验：本地直读、语义检索、VikingBot 三组实测" data-tags="AI,代码问答,OpenViking,评测">
+<a class="post-item-title" href="#">OpenViking 代码问答对照实验：本地直读、语义检索、VikingBot 三组实测</a>
+<p class="post-item-desc">把一个 1686 文件的代码库索引进 OpenViking，用 4 道跨文件难题跑三组对照。VikingBot 快 2.7 倍，但质量垫底——我把原因拆到了检索层和框架层。</p>
+<div class="post-item-meta"><time>2026-10-05</time><a class="tag" href="?tag=AI">AI</a><a class="tag" href="?tag=代码问答">代码问答</a><a class="tag" href="?tag=OpenViking">OpenViking</a><a class="tag" href="?tag=评测">评测</a></div></li></ul>
+<p class="filter-empty" id="filter-empty" hidden>没有匹配的文章。</p></div><footer class="site-footer"><span>© 2026 大斌</span><a href="#">文章</a><a href="#">RSS</a><a href="#">GitHub</a></footer>
+<script>// 主题切换
+(function () {
+  var btn = document.getElementById('theme-toggle');
+  if (!btn) return;
+  var root = document.documentElement;
+
+  function sync() {
+    btn.textContent = root.classList.contains('dark') ? '浅色' : '深色';
+  }
+  sync();
+
+  btn.addEventListener('click', function () {
+    root.classList.toggle('dark');
+    try { localStorage.setItem('theme', root.classList.contains('dark') ? 'dark' : 'light'); } catch (e) {}
+    sync();
+  });
+})();
+
+// 目录：扫描正文 h2/h3 生成，并随滚动高亮
+(function () {
+  var toc = document.getElementById('toc');
+  var list = document.getElementById('toc-list');
+  var body = document.getElementById('article-body');
+  if (!toc || !list || !body) return;
+
+  var heads = [].slice.call(body.querySelectorAll('h2'));
+  if (heads.length < 2) return;
+
+  var used = {};
+  heads.forEach(function (h) {
+    // 生成稳定锚点
+    var id = h.id;
+    if (!id) {
+      id = h.textContent.trim()
+        .replace(/[^\w\u4e00-\u9fa5]+/g, '-')
+        .replace(/^-+|-+$/g, '')
+        .toLowerCase() || 'section';
+      var base = id, n = 2;
+      while (used[id] || document.getElementById(id)) { id = base + '-' + n++; }
+      h.id = id;
+    }
+    used[id] = true;
+
+    var li = document.createElement('li');
+    if (h.tagName === 'H3') li.className = 'toc-l3';
+    var a = document.createElement('a');
+    a.href = '#' + id;
+    a.textContent = h.textContent.trim();
+    li.appendChild(a);
+    list.appendChild(li);
+  });
+
+  toc.hidden = false;
+
+  var links = [].slice.call(list.querySelectorAll('a'));
+  var targets = links.map(function (a) { return document.getElementById(a.getAttribute('href').slice(1)); });
+
+  function highlight() {
+    var y = window.scrollY + 120;
+    var idx = 0;
+    for (var i = 0; i < targets.length; i++) {
+      if (targets[i] && targets[i].offsetTop <= y) idx = i;
+    }
+    links.forEach(function (a, i) { a.classList.toggle('active', i === idx); });
+  }
+
+  var ticking = false;
+  window.addEventListener('scroll', function () {
+    if (ticking) return;
+    ticking = true;
+    requestAnimationFrame(function () { highlight(); ticking = false; });
+  }, { passive: true });
+
+  highlight();
+})();
+
+// 首页：标签筛选 + 排序
+(function () {
+  var list = document.getElementById('post-list');
+  var cloud = document.getElementById('tag-cloud');
+  var sortSel = document.getElementById('sort-select');
+  var empty = document.getElementById('filter-empty');
+  if (!list) return;
+
+  var items = [].slice.call(list.querySelectorAll('.post-item'));
+
+  // 每篇文章的标签
+  items.forEach(function (li) {
+    var raw = (li.getAttribute('data-tags') || '').trim();
+    li._tags = raw ? raw.split(',').map(function (s) { return s.trim(); }).filter(Boolean) : [];
+    li._date = li.getAttribute('data-date') || '';
+    li._title = li.getAttribute('data-title') || '';
+  });
+
+  // ---------- 排序 ----------
+  function applySort(mode) {
+    var sorted = items.slice();
+    sorted.sort(function (a, b) {
+      if (mode === 'title') return a._title.localeCompare(b._title, 'zh-Hans-CN');
+      var da = Date.parse(a._date) || 0, db = Date.parse(b._date) || 0;
+      return mode === 'old' ? da - db : db - da;
+    });
+    sorted.forEach(function (li) { list.appendChild(li); });
+  }
+
+  if (sortSel) {
+    sortSel.addEventListener('change', function () { applySort(sortSel.value); });
+  }
+
+  // ---------- 标签云（从文章列表统计，无需服务端插件）----------
+  var counts = {};
+  items.forEach(function (li) {
+    li._tags.forEach(function (t) { counts[t] = (counts[t] || 0) + 1; });
+  });
+
+  var tags = Object.keys(counts).sort(function (a, b) {
+    return counts[b] - counts[a] || a.localeCompare(b, 'zh-Hans-CN');
+  });
+
+  var current = null;
+
+  function renderCloud() {
+    if (!cloud) return;
+    cloud.innerHTML = '';
+    var all = document.createElement('button');
+    all.type = 'button';
+    all.className = 'tag tag-btn' + (current === null ? ' active' : '');
+    all.textContent = '全部 (' + items.length + ')';
+    all.addEventListener('click', function () { select(null, true); });
+    cloud.appendChild(all);
+
+    tags.forEach(function (t) {
+      var b = document.createElement('button');
+      b.type = 'button';
+      b.className = 'tag tag-btn' + (current === t ? ' active' : '');
+      b.textContent = t + ' (' + counts[t] + ')';
+      b.addEventListener('click', function () { select(t, true); });
+      cloud.appendChild(b);
+    });
+  }
+
+  // ---------- 筛选 ----------
+  function select(tag, pushUrl) {
+    current = tag;
+    var shown = 0;
+    items.forEach(function (li) {
+      var hit = tag === null || li._tags.indexOf(tag) !== -1;
+      li.hidden = !hit;
+      if (hit) shown++;
+    });
+    if (empty) empty.hidden = shown !== 0;
+    renderCloud();
+    if (pushUrl && window.history && window.history.replaceState) {
+      var url = location.pathname + (tag === null ? '' : '?tag=' + encodeURIComponent(tag));
+      window.history.replaceState(null, '', url);
+    }
+  }
+
+  // ---------- 初始化：读 URL 上的 ?tag= ----------
+  var m = location.search.match(/[?&]tag=([^&]*)/);
+  var initial = m ? decodeURIComponent(m[1].replace(/\+/g, ' ')) : null;
+  if (initial && tags.indexOf(initial) === -1) initial = null;
+  select(initial, false);
+  applySort(sortSel ? sortSel.value : 'new');
+})();
+</script></body></html>
