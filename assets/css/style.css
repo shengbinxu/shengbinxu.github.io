@@ -545,12 +545,16 @@ html.dark .nav-links a.is-active { color: rgb(var(--theme-400)); }
 /* ------------------------------------------------- 首页：列表页（对齐 yinwang） */
 
 /* 容器 1120px = 主栏 776 + 间距 24 + 侧栏 320 */
+/* 首页整体容器：标题、简介、标签页、列表共用同一条左边缘 */
+.list-page {
+  max-width: 1120px;
+  margin: 0 auto;
+}
+
 .list-layout {
   display: flex;
   gap: 24px;
   align-items: flex-start;
-  max-width: 1120px;
-  margin: 0 auto;
 }
 .list-main { flex: 1; min-width: 0; }
 .list-side { width: 320px; flex-shrink: 0; }
@@ -560,9 +564,6 @@ html.dark .nav-links a.is-active { color: rgb(var(--theme-400)); }
   display: flex;
   border-bottom: 1px solid var(--border-theme);
   margin-bottom: 24px;
-  max-width: 1120px;
-  margin-left: auto;
-  margin-right: auto;
 }
 .tab {
   font-family: var(--font-ui);

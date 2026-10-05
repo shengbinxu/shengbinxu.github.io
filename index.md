@@ -6,6 +6,7 @@ title: 首页
 {% if posts.size == 0 %}
   <p class="page-intro">还没有文章。</p>
 {% else %}
+  <div class="list-page">
   <h1 class="page-title">博客文章</h1>
   <p class="page-intro">共 {{ posts.size }} 篇。可以按时间逐篇阅读，也可以按分类浏览。</p>
 
@@ -99,5 +100,6 @@ title: 首页
         <div class="tag-cloud" id="tag-cloud"></div>
       </section>
     </aside>
+  </div>
   </div>
 {% endif %}
