@@ -26,7 +26,7 @@
     <div class="site-nav-inner">
       <a class="site-title" href="{{ '/' | relative_url }}">{{ site.title }}</a>
       <div class="nav-links">
-        <a href="{{ '/' | relative_url }}">文章</a>
+        <a href="{{ '/' | relative_url }}"{% if page.url == '/' %} class="is-active"{% endif %}>文章</a>
         <a href="{{ '/feed.xml' | relative_url }}">订阅</a>
         <a href="https://github.com/shengbinxu" target="_blank" rel="noopener">GitHub</a>
       </div>
@@ -41,7 +41,7 @@
 
   <footer class="site-footer">
     <span>© {{ site.time | date: "%Y" }} {{ site.author }}</span>
-    <a href="{{ '/' | relative_url }}">文章</a>
+    <a href="{{ '/' | relative_url }}"{% if page.url == '/' %} class="is-active"{% endif %}>文章</a>
     <a href="{{ '/feed.xml' | relative_url }}">RSS</a>
     <a href="https://github.com/shengbinxu" target="_blank" rel="noopener">GitHub</a>
   </footer>
