@@ -1,0 +1,33 @@
+# 首页「按分类浏览」的分类定义。
+# 分类是人工策展的一级概念，标签是二级：一个分类聚合若干标签。
+# icon 为 24x24 viewBox 的描边路径（stroke），与站点其他图标风格一致。
+
+- name: 中间件与框架
+  icon: "M12 3l8 4.5v9L12 21l-8-4.5v-9L12 3z M12 12l8-4.5 M12 12v9 M12 12L4 7.5"
+  desc: Spring 全家桶、Netty、Kafka 与服务注册——框架内部的机制、源码与踩坑记录。
+  tags: [spring, spring cloud, mybatis, netty, eureka, kafka, 微服务, 状态机, 架构, java, 源码]
+
+- name: 数据与存储
+  icon: "M4 6c0-1.7 3.6-3 8-3s8 1.3 8 3-3.6 3-8 3-8-1.3-8-3z M4 6v12c0 1.7 3.6 3 8 3s8-1.3 8-3V6 M4 12c0 1.7 3.6 3 8 3s8-1.3 8-3"
+  desc: 关系库、时序库、数据湖仓与空间索引——从选型到落地的完整链路。
+  tags: [influxdb, postgresql, postgis, mysql, doris, 时序数据库, 数据仓库, 数据湖, 数据库, 存储, 空间索引, SQL]
+
+- name: 流计算与实时链路
+  icon: "M3 12h4l3-7 4 14 3-7h4"
+  desc: Flink 作业的并行度、乱序、类加载与调优，实时链路上的具体问题。
+  tags: [flink, flink sql, 流计算]
+
+- name: 线上排查与性能
+  icon: "M11 4a7 7 0 1 0 0 14 7 7 0 0 0 0-14z M16.2 16.2L21 21"
+  desc: 从 Wireshark 抓包到 Grafana 看板，定位线上问题的完整工具链与方法。
+  tags: [线上排查, 监控, 性能, 压测, 网络, DNS, wireshark, jmeter, grafana, prometheus, telegraf, JVM, ssh]
+
+- name: 工程效率
+  icon: "M13.5 6.5a3.5 3.5 0 0 1 4.6-3.3l-2.4 2.4 1.7 1.7 2.4-2.4a3.5 3.5 0 0 1-4.6 4.6l-7.1 7.1a1.5 1.5 0 0 1-2.1-2.1l7.1-7.1z"
+  desc: 构建、依赖、IDE 与测试——把日常开发中的摩擦降到最低。
+  tags: [构建, maven, IDEA, 单元测试, 工程效率]
+
+- name: AI 与代码问答
+  icon: "M12 3l1.9 5.1L19 10l-5.1 1.9L12 17l-1.9-5.1L5 10l5.1-1.9L12 3z"
+  desc: 多仓库代码问答 Agent 的设计、评测与落地，以及上下文基础设施的实践。
+  tags: [AI, 代码问答, OpenViking, 评测]

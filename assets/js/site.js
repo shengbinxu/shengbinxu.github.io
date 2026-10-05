@@ -74,14 +74,15 @@
   highlight();
 })();
 
-// 首页：标签页切换 + 标签筛选 + 排序
+// 首页：按时间 / 按分类 视图切换 + 标签筛选 + 排序
 (function () {
-  var list = document.getElementById('post-list');
+  var list = document.getElementById('view-time');
+  var catView = document.getElementById('view-tag');
+  var layout = document.querySelector('.list-layout');
   var cloud = document.getElementById('tag-cloud');
   var sortSel = document.getElementById('sort-select');
   var empty = document.getElementById('filter-empty');
-  var main = document.querySelector('.list-main');
-  if (!list) return;
+  if (!list || !layout) return;
 
   var cards = [].slice.call(list.querySelectorAll('.post-card'));
   cards.forEach(function (c) {
@@ -110,85 +111,66 @@
     });
     sorted.forEach(function (c) { list.appendChild(c); });
   }
-  if (sortSel) sortSel.addEventListener('change', function () { applySort(sortSel.value); render(); });
+  if (sortSel) sortSel.addEventListener('change', function () { applySort(sortSel.value); });
 
+  // ---------- 标签筛选（只作用于时间视图）----------
   function matches(c) { return current === null || c._tags.indexOf(current) !== -1; }
 
-  // ---------- 渲染 ----------
-  function render() {
-    // 标签云
-    if (cloud) {
-      cloud.innerHTML = '';
-      var all = document.createElement('button');
-      all.type = 'button';
-      all.className = 'tag tag-btn' + (current === null ? ' active' : '');
-      all.textContent = '全部 (' + cards.length + ')';
-      all.addEventListener('click', function () { select(null, true); });
-      cloud.appendChild(all);
-      tags.forEach(function (t) {
-        var b = document.createElement('button');
-        b.type = 'button';
-        b.className = 'tag tag-btn' + (current === t ? ' active' : '');
-        b.textContent = t + ' (' + counts[t] + ')';
-        b.addEventListener('click', function () { select(t, true); });
-        cloud.appendChild(b);
-      });
-    }
+  function renderCloud() {
+    if (!cloud) return;
+    cloud.innerHTML = '';
+    var all = document.createElement('button');
+    all.type = 'button';
+    all.className = 'tag tag-btn' + (current === null ? ' active' : '');
+    all.textContent = '全部 (' + cards.length + ')';
+    all.addEventListener('click', function () { select(null, true); });
+    cloud.appendChild(all);
+    tags.forEach(function (t) {
+      var b = document.createElement('button');
+      b.type = 'button';
+      b.className = 'tag tag-btn' + (current === t ? ' active' : '');
+      b.textContent = t + ' (' + counts[t] + ')';
+      b.addEventListener('click', function () { select(t, true); });
+      cloud.appendChild(b);
+    });
+  }
 
-    // 旧的分组容器清掉
-    var old = main && main.querySelector('.tag-groups');
-    if (old) old.remove();
-
-    var shown = cards.filter(matches);
-    if (empty) empty.hidden = shown.length !== 0;
-
-    if (view === 'tag') {
-      list.hidden = true;
-      var wrap = document.createElement('div');
-      wrap.className = 'tag-groups';
-      var byTag = {};
-      shown.forEach(function (c) { c._tags.forEach(function (t) { (byTag[t] = byTag[t] || []).push(c); }); });
-      Object.keys(byTag).sort(function (a, b) {
-        return byTag[b].length - byTag[a].length || a.localeCompare(b, 'zh-Hans-CN');
-      }).forEach(function (t) {
-        var g = document.createElement('section');
-        g.className = 'tag-group';
-        var h = document.createElement('h3');
-        h.className = 'tag-group-title';
-        h.textContent = t + ' (' + byTag[t].length + ')';
-        g.appendChild(h);
-        byTag[t].forEach(function (c) {
-          var clone = c.cloneNode(true);
-          clone.classList.add('post-card');
-          clone.removeAttribute('id');
-          g.appendChild(clone);
-        });
-        wrap.appendChild(g);
-      });
-      main.insertBefore(wrap, list);
-    } else {
-      list.hidden = false;
-      cards.forEach(function (c) { c.hidden = !matches(c); });
-    }
+  function renderList() {
+    var shown = 0;
+    cards.forEach(function (c) {
+      var hit = matches(c);
+      c.hidden = !hit;
+      if (hit) shown++;
+    });
+    if (empty) empty.hidden = shown !== 0;
+    renderCloud();
   }
 
   function select(tag, pushUrl) {
     current = tag;
-    render();
+    if (view !== 'time') switchView('time');
+    else renderList();
     if (pushUrl && window.history && window.history.replaceState) {
       window.history.replaceState(null, '',
         location.pathname + (tag === null ? '' : '?tag=' + encodeURIComponent(tag)));
     }
   }
 
-  // ---------- 标签页切换 ----------
-  var tabs = [].slice.call(document.querySelectorAll('.tab'));
-  tabs.forEach(function (tab) {
-    tab.addEventListener('click', function () {
-      tabs.forEach(function (x) { x.classList.toggle('is-active', x === tab); });
-      view = tab.getAttribute('data-view');
-      render();
+  // ---------- 视图切换 ----------
+  function switchView(next) {
+    view = next;
+    var isCat = next === 'tag';
+    if (catView) catView.hidden = !isCat;
+    list.hidden = isCat;
+    layout.classList.toggle('is-cat-view', isCat);
+    [].forEach.call(document.querySelectorAll('.tab'), function (x) {
+      x.classList.toggle('is-active', x.getAttribute('data-view') === next);
     });
+    if (!isCat) renderList();
+  }
+
+  [].forEach.call(document.querySelectorAll('.tab'), function (tab) {
+    tab.addEventListener('click', function () { switchView(tab.getAttribute('data-view')); });
   });
 
   // ---------- 初始化 ----------
@@ -197,5 +179,5 @@
   if (initial && tags.indexOf(initial) === -1) initial = null;
   current = initial;
   applySort(sortSel ? sortSel.value : 'new');
-  render();
+  renderList();
 })();
