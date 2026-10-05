@@ -16,7 +16,7 @@ original_url: https://www.cnblogs.com/xushengbin/p/17904792.html
 
 也就是说，有过期删除和压实两种策略。可以为每一个topic单独设置清理策略，默认是过期删除。
 
-![](/assets/images/posts/kafka-log-compaction/img-01.png)
+![](/assets/images/posts/kafka-log-compaction/img-01.webp)
 
 ### 压实算法
 
@@ -28,7 +28,7 @@ original_url: https://www.cnblogs.com/xushengbin/p/17904792.html
 /usr/local/kafka2.8/bin/kafka-run-class.sh kafka.tools.DumpLogSegments --deep-iteration --print-data-log --files /mnt/kafka-disk/kafka-logs/__consumer_offsets-7/00000000000310221664.log --offsets-decoder
 ```
 
-![](/assets/images/posts/kafka-log-compaction/img-02.png)
+![](/assets/images/posts/kafka-log-compaction/img-02.webp)
 
 key中存储的是【消费者组、分区】信息，value中存储的是最新提交的offset。
 
@@ -46,7 +46,7 @@ key中存储的是【消费者组、分区】信息，value中存储的是最新
 
 1、压实\_\_consumer\_offsets-7 相关日志如下：
 
-![](/assets/images/posts/kafka-log-compaction/img-03.png)
+![](/assets/images/posts/kafka-log-compaction/img-03.webp)
 
 ```text
 [2023-12-16 12:04:18,974] INFO [Log partition=__consumer_offsets-7, dir=/usr/local/kafka/kafka-logs] Rolled new log segment at offset 310221664 in 8 ms. (kafka.log.Log)
@@ -87,7 +87,7 @@ key中存储的是【消费者组、分区】信息，value中存储的是最新
 
 什么是DirtyOffset呢？
 
-![](/assets/images/posts/kafka-log-compaction/img-04.png)
+![](/assets/images/posts/kafka-log-compaction/img-04.webp)
 
 即未进行过压实操作的段的offset。
 
@@ -99,7 +99,7 @@ key中存储的是【消费者组、分区】信息，value中存储的是最新
 /usr/local/kafka2.8/bin/kafka-run-class.sh kafka.tools.DumpLogSegments --deep-iteration --print-data-log --files /mnt/kafka-disk/kafka-logs/__consumer_offsets-7/00000000000309313806.log --offsets-decoder
 ```
 
-![](/assets/images/posts/kafka-log-compaction/img-05.png)
+![](/assets/images/posts/kafka-log-compaction/img-05.webp)
 
 段文件内容精简了很多，每个key只保留了一行数据。【309313806, 310221664】这么大的offset范围，只占不到1k空间。
 
@@ -107,11 +107,11 @@ key中存储的是【消费者组、分区】信息，value中存储的是最新
 
 前面讨论了，通过压实算法，磁盘上可以只保存一个key的最新值。那么如果要删除一个key该怎么操作呢？
 
-![](/assets/images/posts/kafka-log-compaction/img-06.png)
+![](/assets/images/posts/kafka-log-compaction/img-06.webp)
 
 正好在我们的服务中看到了一条墓碑消息；
 
-![](/assets/images/posts/kafka-log-compaction/img-07.png)
+![](/assets/images/posts/kafka-log-compaction/img-07.webp)
 
 这个消费者组已经一周没用了，kakfa集群应该是认为可以删除这个消费者组了，于是就发送了墓碑消息。
 
@@ -144,6 +144,6 @@ kafka.log.LogManager#cleanupLogs
 
 我们线上的业务，因为未知的原因，就出现了同一个段文件中offset突然变小导致脏数据，分区数据无法写入的问题。
 
-![](/assets/images/posts/kafka-log-compaction/img-08.png)
+![](/assets/images/posts/kafka-log-compaction/img-08.webp)
 
 2、delete策略不会删除当前的活动片段一样，compact策略也不会压实当前的活动片段。

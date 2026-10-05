@@ -55,7 +55,7 @@ private List<ValidationProvider<?>> loadProviders(ClassLoader classloader) {
 
 这个函数返回的 `validationProviderList` 中的内容如下：
 
-![](/assets/images/posts/java-bean-validation/img-01.png)
+![](/assets/images/posts/java-bean-validation/img-01.webp)
 
 此时已经加载了HibernateValidator类。找到关键点了。那么HibernateValidator是如何加载进来的呢？
 
@@ -84,7 +84,7 @@ ServiceLoader&lt;ValidationProvider&gt; loader = ServiceLoader.load( ValidationP
 
 2. HibernateValidator jar 包中，在目录 META-INF/services 下，需要创建文件，文件名以 Interface 全路径命名，文件内容中添加具体实现类的全路径名。
 
-![](/assets/images/posts/java-bean-validation/img-02.png)
+![](/assets/images/posts/java-bean-validation/img-02.webp)
 
 3、 使用ServiceLoader api加载ValidationProvider（Validation提供商，就是Hibernate）
 

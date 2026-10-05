@@ -59,9 +59,9 @@ java.lang.UnsupportedOperationException: unsupported message type: String (expec
       ch.pipeline().addLast(new StringEncoder()).addLast(new ClientHandler());
 ```
 
-![image](/assets/images/posts/netty-write-string-to-channel/img-01.png)
+![image](/assets/images/posts/netty-write-string-to-channel/img-01.webp)
 
-![image](/assets/images/posts/netty-write-string-to-channel/img-02.png)
+![image](/assets/images/posts/netty-write-string-to-channel/img-02.webp)
 
 参考这里关于handler执行顺序的解析，当执行出站操作时（这里的write，对应的就是出站事件），会执行StringEncoder handler（它是ChannelOutboundHandlerAdapter类型），会把字符串转换成byte数组。
 

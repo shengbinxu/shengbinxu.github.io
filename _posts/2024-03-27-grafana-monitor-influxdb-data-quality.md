@@ -40,19 +40,19 @@ from(bucket: "iot")
 
 统计结果输出到另外一个表中：
 
-![image](/assets/images/posts/grafana-monitor-influxdb-data-quality/img-01.png)
+![image](/assets/images/posts/grafana-monitor-influxdb-data-quality/img-01.webp)
 
 这样就得到每个客户的新增数据行数。
 
 此时，还可以利用 influxdb dashboard，对新增数据行数进行可视化展示：
 
-![image](/assets/images/posts/grafana-monitor-influxdb-data-quality/img-02.png)
+![image](/assets/images/posts/grafana-monitor-influxdb-data-quality/img-02.webp)
 
 ### Grafana Alert配置
 
 1、配置Grafana数据源
 
-![image](/assets/images/posts/grafana-monitor-influxdb-data-quality/img-03.png)
+![image](/assets/images/posts/grafana-monitor-influxdb-data-quality/img-03.webp)
 
 需要特别注意授权方式这里。添加influxdb的 token 即可。
 
@@ -60,15 +60,15 @@ from(bucket: "iot")
 
 （1）最近 30 分钟新增行数低于 10万，进行报警。
 
-![image](/assets/images/posts/grafana-monitor-influxdb-data-quality/img-04.png)
+![image](/assets/images/posts/grafana-monitor-influxdb-data-quality/img-04.webp)
 
 （2）累计里程有值大于 1000 万，进行报警。
 
-![image](/assets/images/posts/grafana-monitor-influxdb-data-quality/img-05.png)
+![image](/assets/images/posts/grafana-monitor-influxdb-data-quality/img-05.webp)
 
 3、报警通知方式
 
-![image](/assets/images/posts/grafana-monitor-influxdb-data-quality/img-06.png)
+![image](/assets/images/posts/grafana-monitor-influxdb-data-quality/img-06.webp)
 
 可以配置把报警消息发送到alertmanager，这样在报警通知这块，就和prometheus监控使用一套体系了。
 
@@ -95,7 +95,7 @@ Grafana Alert支持很多种数据源，如 mysql、es 、时序数据库等。
 
 ### 对数据做reduce
 
-![image](/assets/images/posts/grafana-monitor-influxdb-data-quality/img-07.png)
+![image](/assets/images/posts/grafana-monitor-influxdb-data-quality/img-07.webp)
 
 如 max 函数，可以把时序数据（同一个客户有多个值），转换成单个值（如取时序数据的max值、mean值）。
 
@@ -125,6 +125,6 @@ Grafana Alert支持很多种数据源，如 mysql、es 、时序数据库等。
 
 ### 阈值报警
 
-![image](/assets/images/posts/grafana-monitor-influxdb-data-quality/img-08.png)
+![image](/assets/images/posts/grafana-monitor-influxdb-data-quality/img-08.webp)
 
 新增数据行数低于 2 万进行报警。

@@ -193,7 +193,7 @@ $merge([{"timestamp" : timestamp}, tags, {"parameters" : $merge([fields, {"loc":
 
 <https://docs.influxdata.com/telegraf/v1/configure_plugins/aggregator_processor/>
 
-![image](/assets/images/posts/what-telegraf-is-good-at/img-01.png)
+![image](/assets/images/posts/what-telegraf-is-good-at/img-01.webp)
 
 数据经过input、processor、aggregate处理后，得到的数据格式一定是指标格式。  
  <https://docs.influxdata.com/telegraf/v1/metrics/>
@@ -313,7 +313,7 @@ $merge([{"timestamp" : timestamp}, tags, {"parameters" : $merge([fields, {"loc":
 
 我的去重策略是：如果 10 分钟内指标值不变，只记录最后一个指标。如果发生变化，立即记录一次。
 
-![image](/assets/images/posts/what-telegraf-is-good-at/img-02.png)
+![image](/assets/images/posts/what-telegraf-is-good-at/img-02.webp)
 
 截图是一辆车的剩余电量，正常 10 分钟记录一次（telegraf不保证一定是 10 分钟，可能大于 10 分钟），当电量发生变化了，立即记录一次。
 

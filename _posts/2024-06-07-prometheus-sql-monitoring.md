@@ -35,7 +35,7 @@ original_url: https://www.cnblogs.com/xushengbin/p/18236956
 
 SQL的输出结果如下：
 
-![image](/assets/images/posts/prometheus-sql-monitoring/img-01.png)
+![image](/assets/images/posts/prometheus-sql-monitoring/img-01.webp)
 
 我们得到了每个客户、每种作业类型最近2小时新增数据行数。
 

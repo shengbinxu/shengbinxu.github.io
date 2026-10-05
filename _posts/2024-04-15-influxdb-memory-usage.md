@@ -91,7 +91,7 @@ The maximum number of concurrent full and level compactions that can run at one 
 
 storage\_cache\_inuse\_bytes: Gauge of current memory consumption of cache
 
-![image](/assets/images/posts/influxdb-memory-usage/img-01.png)
+![image](/assets/images/posts/influxdb-memory-usage/img-01.webp)
 
 该指标，显示的是每一块cache（一个分区对应一块 cache） 的内存大小。  
 
@@ -101,7 +101,7 @@ storage\_cache\_inuse\_bytes: Gauge of current memory consumption of cache
 
 下面看下`storage_cache_inuse_bytes`和的变化趋势：
 
-![image](/assets/images/posts/influxdb-memory-usage/img-02.png)
+![image](/assets/images/posts/influxdb-memory-usage/img-02.webp)
 
 我们看到，这个总的内存占用波动挺大。 内存占用高的时段，基本都是因为我在导入大量的历史数据（写活跃分区多了）。
 
@@ -121,13 +121,13 @@ storage\_cache\_disk\_bytes: Gauge of size of most recent snapshot
 
 它们的区别，参考<https://docs.influxdata.com/influxdb/v2/reference/internals/storage-engine/#cache>
 
-![image](/assets/images/posts/influxdb-memory-usage/img-03.png)
+![image](/assets/images/posts/influxdb-memory-usage/img-03.webp)
 
 **指标 3**  
 
 go\_memstats\_alloc\_bytes: Number of bytes allocated and still in use.
 
-![image](/assets/images/posts/influxdb-memory-usage/img-04.png)
+![image](/assets/images/posts/influxdb-memory-usage/img-04.webp)
 
 从 go 语言角度，当前该程序占用了 6.9G 内存。明显高于前面cache的总和(cache 2G、快照 500M)。  
 
@@ -142,13 +142,13 @@ go\_memstats\_alloc\_bytes: Number of bytes allocated and still in use.
 可以统计 DB 中磁盘文件内存映射总共耗费的内存：  
  `cat /proc/92825/smaps |grep -a2 /mnt/data/influxdb/engine/|awk '/Rss:/ {sum += $2} END {print sum " kB"}'`
 
-![image](/assets/images/posts/influxdb-memory-usage/img-05.png)
+![image](/assets/images/posts/influxdb-memory-usage/img-05.webp)
 
 一共 8G
 
-![image](/assets/images/posts/influxdb-memory-usage/img-06.png)
+![image](/assets/images/posts/influxdb-memory-usage/img-06.webp)
 
-![image](/assets/images/posts/influxdb-memory-usage/img-07.png)
+![image](/assets/images/posts/influxdb-memory-usage/img-07.webp)
 
 我们统计的是物理内存的值：对应Rss这一行。  
 
@@ -156,17 +156,17 @@ go\_memstats\_alloc\_bytes: Number of bytes allocated and still in use.
 
 疑问又来了： 虚拟内存和物理内存的区别？
 
-![image](/assets/images/posts/influxdb-memory-usage/img-08.png)
+![image](/assets/images/posts/influxdb-memory-usage/img-08.webp)
 
-![image](/assets/images/posts/influxdb-memory-usage/img-09.png)
+![image](/assets/images/posts/influxdb-memory-usage/img-09.webp)
 
 这个文章解释的很好： <https://www.cnblogs.com/liangping/p/12601281.html>
 
-![image](/assets/images/posts/influxdb-memory-usage/img-10.png)
+![image](/assets/images/posts/influxdb-memory-usage/img-10.webp)
 
 回到我的influxdb进程：
 
-![image](/assets/images/posts/influxdb-memory-usage/img-11.png)
+![image](/assets/images/posts/influxdb-memory-usage/img-11.webp)
 
 它的实际占用内存是10.5G  
 

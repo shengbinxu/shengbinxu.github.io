@@ -12,11 +12,11 @@ original_url: https://www.cnblogs.com/xushengbin/p/18370565
 
 ### 1、第二天flink任务重启了，迟到数据还能处理吗？
 
-![image](/assets/images/posts/flink-scenario-practices/img-01.png)
+![image](/assets/images/posts/flink-scenario-practices/img-01.webp)
 
 ### 2、大部分车辆都没有称重数据，如何提前关闭这些窗口，避免过多浪费内存
 
-![image](/assets/images/posts/flink-scenario-practices/img-02.png)
+![image](/assets/images/posts/flink-scenario-practices/img-02.webp)
 
 设置allowedLateness(5d)
 

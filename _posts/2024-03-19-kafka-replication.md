@@ -12,7 +12,7 @@ original_url: https://www.cnblogs.com/xushengbin/p/18081951
 
 下面写写我看完后几点理解：
 
-![image](/assets/images/posts/kafka-replication/img-01.png)
+![image](/assets/images/posts/kafka-replication/img-01.webp)
 
 ## HW（高水位）用来标记哪些消息可以被消费。避免未持久化的消息被消费到。
 
@@ -34,7 +34,7 @@ HW 是leader分区上才有的概念。当一个消息同步到所有的同步�
 
 ## leader epoch（任期编号）用来做副本间数据一致性校对（该丢弃的丢弃，副本数据要保证最终一致性）
 
-![image](/assets/images/posts/kafka-replication/img-02.png)
+![image](/assets/images/posts/kafka-replication/img-02.webp)
 
 图中的状态：
 
@@ -46,8 +46,8 @@ HW 是leader分区上才有的概念。当一个消息同步到所有的同步�
 
 1. 新leader（103）开始接受数据写入，新写入的数据任期为 2
 2. 102开始向 leader 发起 fetch 请求，参数如下（任期为 1，offset为5），leader 回复如下图（任期 1 我的最大offset是 3），这时候 102 知道消息 4、5 在 leader 上没有，就truncate掉 4、5 两条数据
-   ![image](/assets/images/posts/kafka-replication/img-03.png)
-   ![image](/assets/images/posts/kafka-replication/img-04.png)
+   ![image](/assets/images/posts/kafka-replication/img-03.webp)
+   ![image](/assets/images/posts/kafka-replication/img-04.webp)
 
 - 画重点
   ： 如何避免写入成功的数据被丢弃呢？答案是producer要配置
@@ -61,6 +61,6 @@ HW 是leader分区上才有的概念。当一个消息同步到所有的同步�
   ，设置必须至少有 n 个同步副本，才允许写入。这样就能容忍 n-1个节点同时故障并且不会丢数据。
 
 1. 此时，102重新向 leader 发起 fetch 请求，参数如下（任期为 1，offset为3），leader 回复如下（回复任期为 2 的消息），然后 102 向 local log 写入任期为 2的消息。
-   ![image](/assets/images/posts/kafka-replication/img-05.png)
-   ![image](/assets/images/posts/kafka-replication/img-06.png)
+   ![image](/assets/images/posts/kafka-replication/img-05.webp)
+   ![image](/assets/images/posts/kafka-replication/img-06.webp)
 2. 过一段时间，101 重新上线，重复第四步的过程，truncate掉 4、5 两条数据

@@ -18,7 +18,7 @@ original_url: https://www.cnblogs.com/xushengbin/p/17992535
 
 ## 实战
 
-![image](/assets/images/posts/maven-dependency-precedence/img-01.png)
+![image](/assets/images/posts/maven-dependency-precedence/img-01.webp)
 
 micrometer-core 被两个库依赖：
 

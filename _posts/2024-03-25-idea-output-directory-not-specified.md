@@ -12,8 +12,8 @@ original_url: https://www.cnblogs.com/xushengbin/p/18095568
 
 删除本地的.idea目录
 
-![image](/assets/images/posts/idea-output-directory-not-specified/img-01.png)
+![image](/assets/images/posts/idea-output-directory-not-specified/img-01.webp)
 
 然后 idea 中关闭该项目，然后重新导入，就会自动生成.idea目录，一切正常了。
 
-![image](/assets/images/posts/idea-output-directory-not-specified/img-02.png)
+![image](/assets/images/posts/idea-output-directory-not-specified/img-02.webp)

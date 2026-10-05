@@ -66,7 +66,7 @@ A请求B时，我们看下日志信息：
 
 用好Eureka提供的zone、region功能，用处很大。
 
-![image](/assets/images/posts/eureka-zone-routing/img-01.png)
+![image](/assets/images/posts/eureka-zone-routing/img-01.webp)
 
 目前能想到的场景：
 

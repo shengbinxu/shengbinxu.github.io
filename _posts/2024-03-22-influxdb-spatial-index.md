@@ -12,23 +12,23 @@ influxdb官方有一个库（实验版本），说的是可以支持空间索引
 
 我在论坛曾经反馈过这个问题，目前没找到答案。
 
-![image](/assets/images/posts/influxdb-spatial-index/img-01.png)
+![image](/assets/images/posts/influxdb-spatial-index/img-01.webp)
 
 ## 解决方案
 
 1、在 influxdb 表中增加 s2\_cell\_id字段，通过telegraf 给该字段赋值。 （见上截图）
 
-![image](/assets/images/posts/influxdb-spatial-index/img-02.png)
+![image](/assets/images/posts/influxdb-spatial-index/img-02.webp)
 
 来验证下s2\_cell\_id的逻辑（level 设置为 12）
 
 > <https://gojekfarm.github.io/s2-calc/>
 >
-> ![image](/assets/images/posts/influxdb-spatial-index/img-03.png)
+> ![image](/assets/images/posts/influxdb-spatial-index/img-03.webp)
 
 然后转换成 16 进制字符串：
 
-![image](/assets/images/posts/influxdb-spatial-index/img-04.png)
+![image](/assets/images/posts/influxdb-spatial-index/img-04.webp)
 
 和截图中第一行的s2\_cell\_id字段值一致。
 
@@ -40,7 +40,7 @@ influxdb官方有一个库（实验版本），说的是可以支持空间索引
 
 `select * from "iot_track" where customerId='2071' and s2_cell_id='3414b15';`
 
-![image](/assets/images/posts/influxdb-spatial-index/img-05.png)
+![image](/assets/images/posts/influxdb-spatial-index/img-05.webp)
 
 这个 sql 快的不可思议。
 

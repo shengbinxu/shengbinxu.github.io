@@ -147,13 +147,13 @@ For each field you have the option to define the types. The following rules are 
 
 查阅这个文档，看到如下介绍：
 
-![image](/assets/images/posts/telegraf-nested-json/img-01.png)
+![image](/assets/images/posts/telegraf-nested-json/img-01.webp)
 
 它实际上支持构造新的对象。
 
 并且也支持类型转换（把构造的对象转换成string类型）。<https://github.com/tidwall/gjson/blob/v1.7.5/SYNTAX.md>
 
-![image](/assets/images/posts/telegraf-nested-json/img-02.png)
+![image](/assets/images/posts/telegraf-nested-json/img-02.webp)
 
 顺着这个思路，我修改了配置：
 
@@ -266,7 +266,7 @@ Field values can be floats, integers, strings, or Booleans: Floats - by default,
 
 `SHOW FIELD KEYS from device_metric`
 
-![image](/assets/images/posts/telegraf-nested-json/img-03.png)
+![image](/assets/images/posts/telegraf-nested-json/img-03.webp)
 
 截图是优化后的结果。
 

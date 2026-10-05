@@ -14,7 +14,7 @@ original_url: https://www.cnblogs.com/xushengbin/p/18301362
 select last(mileage) from device_data_old where deviceId= '00130846142' and time> now() -60m group by time(5m);
 ```
 
-![image](/assets/images/posts/time-series-data-on-influxdb/img-01.png)
+![image](/assets/images/posts/time-series-data-on-influxdb/img-01.webp)
 
 注意： `03:40` 取的是`03:44:55`时间点的值。即time返回的是滚动窗口的开始时间。
 
@@ -26,7 +26,7 @@ select last(mileage) from device_data_old where deviceId= '00130846142' and time
 select MOVING_AVERAGE(speed,10) from device_data_old where deviceId= '00130846142' and time> now() -60m;
 ```
 
-![image](/assets/images/posts/time-series-data-on-influxdb/img-02.png)
+![image](/assets/images/posts/time-series-data-on-influxdb/img-02.webp)
 
 <https://docs.influxdata.com/influxdb/v2/query-data/influxql/functions/transformations/#moving_average>
 
@@ -56,7 +56,7 @@ select * from (select DIFFERENCE(mileage) as diff from device_data_old where tim
 
 oil是油耗仪检测到的油箱当前油量。
 
-![image](/assets/images/posts/time-series-data-on-influxdb/img-03.png)
+![image](/assets/images/posts/time-series-data-on-influxdb/img-03.webp)
 
 ```sql
 select sum(diff) from (select DIFFERENCE(oil) as diff from device_data_old where time > now() -13h and deviceId='14145676230') where diff < 0;

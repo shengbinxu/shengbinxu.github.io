@@ -132,7 +132,7 @@ class TxAdviceBeanDefinitionParser extends AbstractSingleBeanDefinitionParser {
 
 上面的配置涉及到aop相关知识。这里做一个剖析：
 
-![image](/assets/images/posts/spring-multithread-db-connection/img-01.png)
+![image](/assets/images/posts/spring-multithread-db-connection/img-01.webp)
 
 这个截图信息量很大：
 
@@ -146,7 +146,7 @@ CGLIB会自动修改虚拟机中的字节码，生成了被代理类的一个子
 
 （2）在invoke()方法中，会先执行invokeWithinTransaction()，完成之后继续调用UserService.logon()方法。
 
-![image](/assets/images/posts/spring-multithread-db-connection/img-02.png)
+![image](/assets/images/posts/spring-multithread-db-connection/img-02.webp)
 
 在invokeWithinTransaction()方法中，就开始获取事务。
 

@@ -78,7 +78,7 @@ SmartLifecycle 和[ApplicationListener](https://www.cnblogs.com/xushengbin/p/179
 
 ### spring.factories 文件
 
-![image](/assets/images/posts/eureka-registry-internals/img-01.png)
+![image](/assets/images/posts/eureka-registry-internals/img-01.webp)
 
 文件中，定义的是接口和接口的实现类。
 
@@ -94,7 +94,7 @@ SmartLifecycle 和[ApplicationListener](https://www.cnblogs.com/xushengbin/p/179
 
 ### 在spring boot2.7版本中，@EnableDiscoveryClient 注解已经没用了
 
-![image](/assets/images/posts/eureka-registry-internals/img-02.png)
+![image](/assets/images/posts/eureka-registry-internals/img-02.webp)
 
 即使不使用这个注解，classpath中有了eureka，也会进行服务注册。  
 
@@ -104,7 +104,7 @@ SmartLifecycle 和[ApplicationListener](https://www.cnblogs.com/xushengbin/p/179
 spring.cloud.service-registry.auto-registration.enabled = false
 ```
 
-![image](/assets/images/posts/eureka-registry-internals/img-03.png)
+![image](/assets/images/posts/eureka-registry-internals/img-03.webp)
 
 ### spring框架自定义事件通知机制
 
@@ -171,15 +171,15 @@ org.springframework.boot.autoconfigure.EnableAutoConfiguration=org.springframewo
 
 4、关键代码this.serviceRegistry.register，继续追踪，会执行com.netflix.appinfo.ApplicationInfoManager中的setInstanceStatus()方法：
 
-![image](/assets/images/posts/eureka-registry-internals/img-04.png)
+![image](/assets/images/posts/eureka-registry-internals/img-04.webp)
 
 5、通过线程池，调用InstanceInfoReplicator.run()方法：
 
-![image](/assets/images/posts/eureka-registry-internals/img-05.png)
+![image](/assets/images/posts/eureka-registry-internals/img-05.webp)
 
 6、查找可用的eureka server，发送请求，进行实例注册
 
-![image](/assets/images/posts/eureka-registry-internals/img-06.png)
+![image](/assets/images/posts/eureka-registry-internals/img-06.webp)
 
 ## 自问自答
 
@@ -284,11 +284,11 @@ eureka架构，满足分布式原理cap中的ap，不满足一致性。理由：
 
 那么，我就通过wireshark监听和端口8762之间的通信：
 
-![image](/assets/images/posts/eureka-registry-internals/img-07.png)
+![image](/assets/images/posts/eureka-registry-internals/img-07.webp)
 
 看到在请求8762端口上的`POST /eureka/peerreplication/batch/ HTTP/1.1`接口，参数是：
 
-![image](/assets/images/posts/eureka-registry-internals/img-08.png)
+![image](/assets/images/posts/eureka-registry-internals/img-08.webp)
 
 看起来，8761实例通过调用上面的接口，发app信息同步到了8762
 

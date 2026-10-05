@@ -47,11 +47,11 @@ public class EchoServerHandler extends ChannelInboundHandlerAdapter {
 
 ## 问题排查
 
-![image](/assets/images/posts/netty-localhost-no-response/img-01.png)
+![image](/assets/images/posts/netty-localhost-no-response/img-01.webp)
 
 我的电脑上有两个进程在监听 8081 端口。
 
-![image](/assets/images/posts/netty-localhost-no-response/img-02.png)
+![image](/assets/images/posts/netty-localhost-no-response/img-02.webp)
 
 - vscode，监听的是127.0.0.1:8081
 - netty server监听的是\*.8081，也就是客户端请求任意一个网卡上的 8081 端口，都是达到这个地址
@@ -68,9 +68,9 @@ public class EchoServerHandler extends ChannelInboundHandlerAdapter {
 
 还是上面的代码，分别起两个netty server，分别监听0.0.0.0:8081、127.0.0.1:8081:
 
-![image](/assets/images/posts/netty-localhost-no-response/img-03.png)
+![image](/assets/images/posts/netty-localhost-no-response/img-03.webp)
 
-![image](/assets/images/posts/netty-localhost-no-response/img-04.png)
+![image](/assets/images/posts/netty-localhost-no-response/img-04.webp)
 
 第一步：netty client请求127.0.0.1:8081，监听了127.0.0.1:8081的server会收到请求。
 

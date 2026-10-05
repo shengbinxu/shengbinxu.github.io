@@ -10,7 +10,7 @@ original_url: https://www.cnblogs.com/xushengbin/p/18397675
 
 <https://blog.csdn.net/qq_36996635/article/details/126062991>
 
-![image](/assets/images/posts/enterprise-transparent-dns/img-01.png)
+![image](/assets/images/posts/enterprise-transparent-dns/img-01.webp)
 
 1. 首先，应用ServiceA通过DNS查询获取到ServiceB的可用IP列表
 2. DNS-F会拦截到ServiceA的查询请求，判断自己是否该查询的答案，如果有（服务已在VIPServer中注册）则直接返回IP列表；

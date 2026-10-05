@@ -26,7 +26,7 @@ SingleOutputStreamOperator<Row> aggregatedStream = patrolStream
                 .returns(rowTypeInfo);
 ```
 
-![image](/assets/images/posts/flink-parallelism-out-of-order/img-01.png)
+![image](/assets/images/posts/flink-parallelism-out-of-order/img-01.webp)
 
 算子A（红色）往侧流中写入数据：
 
@@ -70,7 +70,7 @@ key1、eventTime1、INSERT => 子任务2
 
 ## 接下来把所有算子并行度都修改为12，看下效果
 
-![image](/assets/images/posts/flink-parallelism-out-of-order/img-02.png)
+![image](/assets/images/posts/flink-parallelism-out-of-order/img-02.webp)
 
 这时候从A到B，执行的是forward分区策略。
 

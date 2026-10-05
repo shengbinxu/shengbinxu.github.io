@@ -17,12 +17,12 @@ original_url: https://www.cnblogs.com/xushengbin/p/18100300
 
 放几个截图：
 
-![image](/assets/images/posts/idea-profiler/img-01.png)
+![image](/assets/images/posts/idea-profiler/img-01.webp)
 
 IDEA 直接展示了某一个函数的执行时间，进入这个函数，又可以看到函数内部哪里最耗时。通过这种方式，1 分钟就能定位到问题。
 
 注意：右侧可以切换是显示 cpu 时间，还是总时间（包含网络 IO、磁盘 IO 、内存读取时间）。
 
-![image](/assets/images/posts/idea-profiler/img-02.png)
+![image](/assets/images/posts/idea-profiler/img-02.webp)
 
 点击左侧的2284ms，可以看到`call.execute()`耗时 481ms，而`parserResponse` 花费 1800ms

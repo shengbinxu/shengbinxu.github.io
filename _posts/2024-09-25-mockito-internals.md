@@ -18,11 +18,11 @@ mock了类EnvUtil之后，setEnvironment方法的参数始终为null。明明传
 
 ## 答案
 
-![image](/assets/images/posts/mockito-internals/img-01.png)
+![image](/assets/images/posts/mockito-internals/img-01.webp)
 
 “这个操作会创建一个 EnvUtil 类的子类，并且所有对 EnvUtil 的静态方法的调用都会被转发到这个子类” 这个背后的原理：
 
-![image](/assets/images/posts/mockito-internals/img-02.png)
+![image](/assets/images/posts/mockito-internals/img-02.webp)
 
 ## 继续深究
 

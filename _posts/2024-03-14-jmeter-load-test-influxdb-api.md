@@ -37,16 +37,16 @@ jmeter -&gt; java service -&gt; influxdb 需要在同一个局域网
 
 ### 1、在MAC上利用 jmeter图形界面，做相关配置。
 
-![image](/assets/images/posts/jmeter-load-test-influxdb-api/img-01.png)
+![image](/assets/images/posts/jmeter-load-test-influxdb-api/img-01.webp)
 
 - 并发数 30
 - 循环 500 次，即一共请求 15000 次
 
 **变量配置方式：**
 
-![image](/assets/images/posts/jmeter-load-test-influxdb-api/img-02.png)
+![image](/assets/images/posts/jmeter-load-test-influxdb-api/img-02.webp)
 
-![image](/assets/images/posts/jmeter-load-test-influxdb-api/img-03.png)
+![image](/assets/images/posts/jmeter-load-test-influxdb-api/img-03.webp)
 
 - 从 csv 文件中读取设备 id 列表，并定义第一列为变量"deviceId"
 - 在http post body中，使用变量deviceId
@@ -54,7 +54,7 @@ jmeter -&gt; java service -&gt; influxdb 需要在同一个局域网
 
 **压测结果，采用“聚合报告”方式展示**
 
-![image](/assets/images/posts/jmeter-load-test-influxdb-api/img-04.png)
+![image](/assets/images/posts/jmeter-load-test-influxdb-api/img-04.webp)
 
 ### 导出相关配置，然后在linux服务器上使用命令行模式执行压测
 
@@ -64,7 +64,7 @@ jmeter -&gt; java service -&gt; influxdb 需要在同一个局域网
 
 这样就在/report目录下生成了结果报告。由于是html格式，copy到 MAC 上查看效果：
 
-![image](/assets/images/posts/jmeter-load-test-influxdb-api/img-05.png)
+![image](/assets/images/posts/jmeter-load-test-influxdb-api/img-05.webp)
 
 ## InfluxDB压测结果
 
@@ -78,11 +78,11 @@ jmeter -&gt; java service -&gt; influxdb 需要在同一个局域网
 
 并发 30，查询 1万次，结果如下：
 
-![image](/assets/images/posts/jmeter-load-test-influxdb-api/img-06.png)
+![image](/assets/images/posts/jmeter-load-test-influxdb-api/img-06.webp)
 
 并发 100，查询 1 万次，结果如下：
 
-![image](/assets/images/posts/jmeter-load-test-influxdb-api/img-07.png)
+![image](/assets/images/posts/jmeter-load-test-influxdb-api/img-07.webp)
 
 性能还是相当优秀的。
 

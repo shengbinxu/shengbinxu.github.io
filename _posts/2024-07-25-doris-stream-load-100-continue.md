@@ -16,7 +16,7 @@ original_url: https://www.cnblogs.com/xushengbin/p/18322832
 
 <https://doris.apache.org/docs/1.2/advanced/best-practice/debug-log/>
 
-![image](/assets/images/posts/doris-stream-load-100-continue/img-01.png)
+![image](/assets/images/posts/doris-stream-load-100-continue/img-01.webp)
 
 2、使用tcpdump在doris fe机器上抓包
 
@@ -24,7 +24,7 @@ original_url: https://www.cnblogs.com/xushengbin/p/18322832
 tcpdump tcp port 18030 -X -e  -vv -s 0
 ```
 
-![image](/assets/images/posts/doris-stream-load-100-continue/img-02.png)
+![image](/assets/images/posts/doris-stream-load-100-continue/img-02.webp)
 
 能清晰看到每一步的http header以及response信息。
 
@@ -34,7 +34,7 @@ tcpdump tcp port 18030 -X -e  -vv -s 0
 
 先抓个包：
 
-![image](/assets/images/posts/doris-stream-load-100-continue/img-03.png)
+![image](/assets/images/posts/doris-stream-load-100-continue/img-03.webp)
 
 发送http请求，带上header: Expect:100-continue
 

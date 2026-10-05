@@ -22,9 +22,9 @@ url格式写错了（两个jdbc），然后呢，在spring项目中查询mysql�
 
 刚开始没注意到配置文件格式错误了，于是用wireshark进行debug：
 
-![image](/assets/images/posts/wireshark-debug-spring-mysql/img-01.png)
+![image](/assets/images/posts/wireshark-debug-spring-mysql/img-01.webp)
 
-![image](/assets/images/posts/wireshark-debug-spring-mysql/img-02.png)
+![image](/assets/images/posts/wireshark-debug-spring-mysql/img-02.webp)
 
 当我尝试用mysql协议解包时，提示我“解码器不完整”。
 
@@ -36,9 +36,9 @@ url格式写错了（两个jdbc），然后呢，在spring项目中查询mysql�
 
 接下来改为正确的jdbc配置请求mysql，看下报文：
 
-![image](/assets/images/posts/wireshark-debug-spring-mysql/img-03.png)
+![image](/assets/images/posts/wireshark-debug-spring-mysql/img-03.webp)
 
-![image](/assets/images/posts/wireshark-debug-spring-mysql/img-04.png)
+![image](/assets/images/posts/wireshark-debug-spring-mysql/img-04.webp)
 
 1、三次握手成功之后，服务器主动告知自己的版本号等信息  
 

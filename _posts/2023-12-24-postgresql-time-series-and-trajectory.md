@@ -104,13 +104,13 @@ postgresql 提供了块级索引（简称 BRIN），主要适用于类似时序�
 - 只insert
 - 关闭同步写入
 
-![image](/assets/images/posts/postgresql-time-series-and-trajectory/img-01.png)
+![image](/assets/images/posts/postgresql-time-series-and-trajectory/img-01.webp)
 
-![image](/assets/images/posts/postgresql-time-series-and-trajectory/img-02.png)
+![image](/assets/images/posts/postgresql-time-series-and-trajectory/img-02.webp)
 
 一秒写入6万。
 
-![image](/assets/images/posts/postgresql-time-series-and-trajectory/img-03.png)
+![image](/assets/images/posts/postgresql-time-series-and-trajectory/img-03.webp)
 
 设想：  
 

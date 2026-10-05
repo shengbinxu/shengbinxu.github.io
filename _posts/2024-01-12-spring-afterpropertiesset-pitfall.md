@@ -160,7 +160,7 @@ public class LoadBalancerAutoConfiguration {
 
 **知识点2:**
 
-![image](/assets/images/posts/spring-afterpropertiesset-pitfall/img-01.png)
+![image](/assets/images/posts/spring-afterpropertiesset-pitfall/img-01.webp)
 
 第一次明白了这组注解的含义：
 
