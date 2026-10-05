@@ -35,7 +35,7 @@
   --inline-code-fg: rgb(var(--theme-800));
   --shadow:    0 1px 2px rgb(0 0 0 / 0.04), 0 4px 16px -8px rgb(111 70 32 / 0.12);
 
-  --measure:   704px;   /* 正文阅读宽度 */
+  --measure:   860px;   /* 正文阅读宽度（≈47 汉字/行，且让宽表格能排下） */
   --card-pad-x: 32px;   /* 卡片内边距；表格外扩量与之绑定 */
   --toc-width: 200px;
   --radius:    8px;
@@ -492,8 +492,14 @@ body {
 
 /* ------------------------------------------------------------ 响应式 */
 
-@media (max-width: 900px) {
+/* 低于此宽度收起目录，把横向空间让给正文与表格
+   （卡片 924 + 目录 200 + 间距 32 + 页面内边距 48 ≈ 1204） */
+@media (max-width: 1200px) {
   .toc { display: none; }
+}
+
+/* 字号缩小单独一档，别和上面的断点绑在一起 */
+@media (max-width: 900px) {
   .article-title, .page-title { font-size: 28px; }
   .prose { font-size: 17px; }
   .prose h2 { font-size: 21px; }
