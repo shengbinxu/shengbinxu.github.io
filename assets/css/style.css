@@ -35,6 +35,7 @@
   --shadow:    0 1px 2px rgb(0 0 0 / 0.04), 0 4px 16px -8px rgb(111 70 32 / 0.12);
 
   --measure:   704px;   /* 正文阅读宽度 */
+  --card-pad-x: 44px;   /* 文章卡片横向内边距；表格外扩量与之绑定 */
   --toc-width: 200px;
   --radius:    10px;
 
@@ -270,9 +271,10 @@ body {
 
 /* 表格与代码块不参与限宽，可用满卡片 */
 .prose > table {
-  /* 表格吃掉卡片左右内边距，比正文多 88px，避免长路径被从中间劈开 */
-  width: calc(100% + 88px);
-  margin-left: -44px;
+  /* 表格吃掉卡片左右内边距，比正文宽 2×内边距，减少长路径被从中间劈开。
+     外扩量必须与 --card-pad-x 绑定，否则窄屏下会把页面撑出横向滚动。 */
+  width: calc(100% + 2 * var(--card-pad-x));
+  margin-left: calc(-1 * var(--card-pad-x));
   max-width: none;
   font-size: 0.84em;
 }
@@ -484,10 +486,11 @@ body {
 .highlight .err { color: inherit; background: none; }
 
 /* 文章卡片内边距 */
-.article-card { padding: 40px 44px 48px; }
+.article-card { padding: 40px var(--card-pad-x) 48px; }
 
 @media (max-width: 600px) {
-  .article-card { padding: 24px 18px 32px; }
+  :root { --card-pad-x: 18px; }
+  .article-card { padding: 24px var(--card-pad-x) 32px; }
 }
 
 /* ------------------------------------------------- 首页：筛选与排序 */
