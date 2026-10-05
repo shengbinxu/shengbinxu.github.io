@@ -17,17 +17,18 @@
   --theme-800: 139 93 50;
   --theme-900: 111 70 32;
 
-  --bg:        rgb(var(--theme-50));
+  --bg:        #f9fafb;   /* gray-50：冷灰底，卡片靠它衬托 */
   --card:      #ffffff;
   --fg:        #111827;
   --fg-body:   #374151;
   --muted:     #6b7280;
-  --border:    rgb(0 0 0 / 0.07);
+  --border:    #e5e7eb;   /* gray-200 */
+  --border-theme: rgb(var(--theme-200));  /* 顶栏/页脚用主题色描边 */
   --link:      rgb(var(--theme-600));
   --link-hover:rgb(var(--theme-700));
   --heading-accent: rgb(var(--theme-600));
   --tag-bg:    rgb(var(--theme-100));
-  --tag-fg:    rgb(var(--theme-800));
+  --tag-fg:    rgb(var(--theme-900));
   --code-bg:   #0d1117;
   --code-fg:   #e6edf3;
   --inline-code-bg: rgb(0 0 0 / 0.055);
@@ -35,9 +36,9 @@
   --shadow:    0 1px 2px rgb(0 0 0 / 0.04), 0 4px 16px -8px rgb(111 70 32 / 0.12);
 
   --measure:   704px;   /* 正文阅读宽度 */
-  --card-pad-x: 44px;   /* 文章卡片横向内边距；表格外扩量与之绑定 */
+  --card-pad-x: 32px;   /* 卡片内边距；表格外扩量与之绑定 */
   --toc-width: 200px;
-  --radius:    10px;
+  --radius:    8px;
 
   /* 字体：完全沿用 yinwang.org —— 纯系统字体，不加载任何 webfont */
   --font-sans: ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji",
@@ -50,7 +51,7 @@
 
 html.dark {
   --bg:        #111827;
-  --card:      #1b2230;
+  --card:      #1f2937;   /* gray-800 */
   --fg:        #f3f4f6;
   --fg-body:   #d1d5db;
   --muted:     #9ca3af;
@@ -83,8 +84,9 @@ body {
 /* ---------------------------------------------------------------- 顶部导航 */
 
 .site-nav {
-  border-bottom: 1px solid var(--border);
-  background: var(--bg);
+  background: var(--card);
+  border-bottom: 1px solid var(--border-theme);
+  box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
   position: sticky;
   top: 0;
   z-index: 50;
@@ -114,7 +116,7 @@ body {
 .nav-links {
   display: flex;
   gap: 22px;
-  font-size: 15px;
+  font-size: 16px;
   font-weight: 500;
 }
 
@@ -154,15 +156,15 @@ body {
   align-items: flex-start;
 }
 
-.layout-main { flex: 1; min-width: 0; max-width: calc(var(--measure) + 88px); }
+.layout-main { flex: 1; min-width: 0; max-width: calc(var(--measure) + 2 * var(--card-pad-x)); }
 
 /* ------------------------------------------------------------------ 卡片 */
 
 .card {
   background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  box-shadow: var(--shadow);
+  border: 0;
+  border-radius: 8px;   /* yinwang：rounded-lg */
+  box-shadow: none;     /* 无边框无阴影，靠灰底衬托 */
 }
 
 /* -------------------------------------------------------------- 首页列表 */
@@ -170,7 +172,7 @@ body {
 .page-title {
   font-size: 36px;
   line-height: 1.11;
-  font-weight: 800;
+  font-weight: 700;
   color: var(--fg);
   margin: 0 0 12px;
   letter-spacing: -0.02em;
@@ -216,11 +218,11 @@ body {
 
 .tag {
   display: inline-block;
-  padding: 3px 12px;
-  border-radius: 999px;
+  padding: 4px 12px;
+  border-radius: 9999px;
   background: var(--tag-bg);
   color: var(--tag-fg);
-  font-size: 13px;
+  font-size: 14px;
   line-height: 1.5;
   text-decoration: none;
 }
@@ -233,7 +235,7 @@ body {
   font-family: var(--font-body);
   font-size: 36px;
   line-height: 1.11;
-  font-weight: 800;
+  font-weight: 700;
   color: var(--fg);
   margin: 0 0 16px;
   letter-spacing: -0.02em;
@@ -488,7 +490,7 @@ body {
 .highlight .err { color: inherit; background: none; }
 
 /* 文章卡片内边距 */
-.article-card { padding: 40px var(--card-pad-x) 48px; }
+.article-card { padding: 32px var(--card-pad-x); }
 
 @media (max-width: 600px) {
   :root { --card-pad-x: 18px; }
