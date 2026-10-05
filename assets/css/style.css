@@ -486,3 +486,69 @@ body {
 @media (max-width: 600px) {
   .article-card { padding: 24px 18px 32px; }
 }
+
+/* ------------------------------------------------- 首页：筛选与排序 */
+
+.filters {
+  padding: 22px 26px;
+  margin-bottom: 40px;
+}
+
+.filter-row { display: flex; align-items: flex-start; gap: 16px; }
+.filter-row + .filter-row { margin-top: 18px; }
+
+.filter-label {
+  flex-shrink: 0;
+  width: 84px;
+  padding-top: 6px;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--fg);
+}
+
+.filter-select {
+  font-family: var(--font-ui);
+  font-size: 15px;
+  color: var(--fg-body);
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 7px 12px;
+  min-width: 180px;
+  cursor: pointer;
+}
+
+.filter-select:hover { border-color: var(--link); }
+
+.tag-cloud { display: flex; flex-wrap: wrap; gap: 8px; }
+
+/* 标签同时用于 <a>（文章元信息）和 <button>（筛选器），统一外观 */
+.tag-btn {
+  font-family: var(--font-ui);
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: background-color .15s ease, color .15s ease, border-color .15s ease;
+}
+
+.tag-btn:hover {
+  background: rgb(var(--theme-200));
+  color: rgb(var(--theme-900));
+}
+
+.tag-btn.active {
+  background: rgb(var(--theme-600));
+  color: #fff;
+  border-color: rgb(var(--theme-600));
+}
+
+html.dark .tag-btn:hover { background: rgb(var(--theme-800)); color: rgb(var(--theme-100)); }
+html.dark .tag-btn.active { background: rgb(var(--theme-400)); color: #1b2230; border-color: rgb(var(--theme-400)); }
+
+.filter-empty { color: var(--muted); font-size: 15px; padding: 12px 0; }
+
+@media (max-width: 600px) {
+  .filters { padding: 16px 18px; }
+  .filter-row { flex-direction: column; gap: 8px; }
+  .filter-label { width: auto; padding-top: 0; }
+  .filter-select { width: 100%; }
+}

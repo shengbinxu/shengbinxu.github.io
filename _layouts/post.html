@@ -17,7 +17,7 @@ layout: default
           <time datetime="{{ page.date | date_to_xmlschema }}">{{ page.date | date: "%Y 年 %-m 月 %-d 日" }}</time>
           {% if page.tags and page.tags.size > 0 %}
             <span class="tag-row">
-              {% for tag in page.tags %}<span class="tag">{{ tag }}</span>{% endfor %}
+              {% for tag in page.tags %}<a class="tag" href="{{ '/' | relative_url }}?tag={{ tag | url_encode }}">{{ tag }}</a>{% endfor %}
             </span>
           {% endif %}
         </div>

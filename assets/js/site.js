@@ -73,3 +73,93 @@
 
   highlight();
 })();
+
+// 首页：标签筛选 + 排序
+(function () {
+  var list = document.getElementById('post-list');
+  var cloud = document.getElementById('tag-cloud');
+  var sortSel = document.getElementById('sort-select');
+  var empty = document.getElementById('filter-empty');
+  if (!list) return;
+
+  var items = [].slice.call(list.querySelectorAll('.post-item'));
+
+  // 每篇文章的标签
+  items.forEach(function (li) {
+    var raw = (li.getAttribute('data-tags') || '').trim();
+    li._tags = raw ? raw.split(',').map(function (s) { return s.trim(); }).filter(Boolean) : [];
+    li._date = li.getAttribute('data-date') || '';
+    li._title = li.getAttribute('data-title') || '';
+  });
+
+  // ---------- 排序 ----------
+  function applySort(mode) {
+    var sorted = items.slice();
+    sorted.sort(function (a, b) {
+      if (mode === 'title') return a._title.localeCompare(b._title, 'zh-Hans-CN');
+      var da = Date.parse(a._date) || 0, db = Date.parse(b._date) || 0;
+      return mode === 'old' ? da - db : db - da;
+    });
+    sorted.forEach(function (li) { list.appendChild(li); });
+  }
+
+  if (sortSel) {
+    sortSel.addEventListener('change', function () { applySort(sortSel.value); });
+  }
+
+  // ---------- 标签云（从文章列表统计，无需服务端插件）----------
+  var counts = {};
+  items.forEach(function (li) {
+    li._tags.forEach(function (t) { counts[t] = (counts[t] || 0) + 1; });
+  });
+
+  var tags = Object.keys(counts).sort(function (a, b) {
+    return counts[b] - counts[a] || a.localeCompare(b, 'zh-Hans-CN');
+  });
+
+  var current = null;
+
+  function renderCloud() {
+    if (!cloud) return;
+    cloud.innerHTML = '';
+    var all = document.createElement('button');
+    all.type = 'button';
+    all.className = 'tag tag-btn' + (current === null ? ' active' : '');
+    all.textContent = '全部 (' + items.length + ')';
+    all.addEventListener('click', function () { select(null, true); });
+    cloud.appendChild(all);
+
+    tags.forEach(function (t) {
+      var b = document.createElement('button');
+      b.type = 'button';
+      b.className = 'tag tag-btn' + (current === t ? ' active' : '');
+      b.textContent = t + ' (' + counts[t] + ')';
+      b.addEventListener('click', function () { select(t, true); });
+      cloud.appendChild(b);
+    });
+  }
+
+  // ---------- 筛选 ----------
+  function select(tag, pushUrl) {
+    current = tag;
+    var shown = 0;
+    items.forEach(function (li) {
+      var hit = tag === null || li._tags.indexOf(tag) !== -1;
+      li.hidden = !hit;
+      if (hit) shown++;
+    });
+    if (empty) empty.hidden = shown !== 0;
+    renderCloud();
+    if (pushUrl && window.history && window.history.replaceState) {
+      var url = location.pathname + (tag === null ? '' : '?tag=' + encodeURIComponent(tag));
+      window.history.replaceState(null, '', url);
+    }
+  }
+
+  // ---------- 初始化：读 URL 上的 ?tag= ----------
+  var m = location.search.match(/[?&]tag=([^&]*)/);
+  var initial = m ? decodeURIComponent(m[1].replace(/\+/g, ' ')) : null;
+  if (initial && tags.indexOf(initial) === -1) initial = null;
+  select(initial, false);
+  applySort(sortSel ? sortSel.value : 'new');
+})();
