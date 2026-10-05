@@ -3,28 +3,49 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>{% if page.title %}{{ page.title }} · {{ site.title }}{% else %}{{ site.title }}{% endif %}</title>
+  <title>{% if page.title and page.title != "首页" %}{{ page.title }} · {{ site.title }}{% else %}{{ site.title }}{% endif %}</title>
   {% if page.description %}<meta name="description" content="{{ page.description }}">{% elsif site.description %}<meta name="description" content="{{ site.description }}">{% endif %}
-  <link rel="stylesheet" href="{{ '/assets/css/style.css' | relative_url }}">
-  {% if site.url %}<link rel="canonical" href="{{ page.url | absolute_url }}">{% endif %}
+  <link rel="canonical" href="{{ page.url | absolute_url }}">
   <link rel="alternate" type="application/atom+xml" href="{{ '/feed.xml' | relative_url }}" title="{{ site.title }}">
+  <link rel="stylesheet" href="{{ '/assets/css/style.css' | relative_url }}">
+  <script>
+    // 首屏前定主题，避免闪白
+    (function () {
+      try {
+        var t = localStorage.getItem('theme');
+        if (t === 'dark' || (!t && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+          document.documentElement.classList.add('dark');
+        }
+      } catch (e) {}
+    })();
+  </script>
 </head>
 <body>
-  <header class="site-header">
-    <a class="site-title" href="{{ '/' | relative_url }}">{{ site.title }}</a>
-    <span class="site-desc">{{ site.description }}</span>
-  </header>
 
-  <main class="content">
+  <nav class="site-nav">
+    <div class="site-nav-inner">
+      <a class="site-title" href="{{ '/' | relative_url }}">{{ site.title }}</a>
+      <div class="nav-links">
+        <a href="{{ '/' | relative_url }}">文章</a>
+        <a href="{{ '/feed.xml' | relative_url }}">订阅</a>
+        <a href="https://github.com/shengbinxu" target="_blank" rel="noopener">GitHub</a>
+      </div>
+      <span class="nav-spacer"></span>
+      <button class="theme-toggle" id="theme-toggle" type="button" aria-label="切换深浅色">深色</button>
+    </div>
+  </nav>
+
+  <div class="wrap">
     {{ content }}
-  </main>
+  </div>
 
   <footer class="site-footer">
     <span>© {{ site.time | date: "%Y" }} {{ site.author }}</span>
-    <span class="sep">·</span>
-    <a href="https://github.com/shengbinxu">GitHub</a>
-    <span class="sep">·</span>
-    <a href="{{ '/feed.xml' | relative_url }}">订阅</a>
+    <a href="{{ '/' | relative_url }}">文章</a>
+    <a href="{{ '/feed.xml' | relative_url }}">RSS</a>
+    <a href="https://github.com/shengbinxu" target="_blank" rel="noopener">GitHub</a>
   </footer>
+
+  <script src="{{ '/assets/js/site.js' | relative_url }}"></script>
 </body>
 </html>
