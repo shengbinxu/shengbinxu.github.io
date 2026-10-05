@@ -133,17 +133,45 @@ body {
 .nav-links a.is-active { color: rgb(var(--theme-600)); font-weight: 600; }
 html.dark .nav-links a.is-active { color: rgb(var(--theme-400)); }
 
-.nav-spacer { flex: 1; }
+/* 右侧工具区：推到最右，规格对齐 yinwang（36×36 / 内边距 8px / 圆角 8px / 间距 4px） */
+.nav-actions {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.nav-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  color: var(--fg);
+  text-decoration: none;
+  transition: background-color .15s ease, color .15s ease;
+}
+.nav-icon:hover {
+  background: #f3f4f6;
+  color: var(--fg);
+  text-decoration: none;
+}
+.nav-icon svg { width: 20px; height: 20px; }
+html.dark .nav-icon:hover { background: rgb(255 255 255 / .08); }
 
 .theme-toggle {
+  font-family: var(--font-ui);
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--fg);
+  background: none;
   border: 1px solid var(--border);
-  background: var(--card);
-  color: var(--fg-body);
   border-radius: 8px;
-  padding: 5px 10px;
-  font-size: 13px;
+  height: 36px;
+  padding: 0 12px;
   cursor: pointer;
-  font-family: inherit;
+  transition: background-color .15s ease, border-color .15s ease, color .15s ease;
 }
 
 .theme-toggle:hover { color: var(--link); border-color: var(--link); }
