@@ -1,0 +1,24 @@
+title: 大斌的技术笔记
+author: 大斌
+email: ""
+description: 后端、AI 工程化，以及一些实测记录
+url: "https://shengbinxu.github.io"
+baseurl: ""
+
+markdown: kramdown
+kramdown:
+  input: GFM
+  syntax_highlighter: rouge
+  syntax_highlighter_opts:
+    css_class: highlight
+
+permalink: /:year/:month/:title/
+timezone: Asia/Shanghai
+
+plugins:
+  - jekyll-feed
+
+exclude:
+  - README.md
+  - Gemfile
+  - Gemfile.lock
