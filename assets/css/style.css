@@ -303,7 +303,9 @@ body {
 .prose > table {
   width: 100%;
   max-width: 100%;
-  font-size: 0.875em;   /* 与 yinwang 的 typography 一致 */
+  /* 0.84em（而非 typography 默认的 0.875em）：让含长路径的表在 704px 内排下，
+     避免横向滚动条。配合单元格 overflow-wrap 断行。 */
+  font-size: 0.84em;
 }
 .prose > pre { max-width: 100%; }
 
@@ -407,6 +409,13 @@ body {
   display: block;
   overflow-x: auto;
 }
+
+/* 单元格内允许长串在必要时断行，否则 viking://user/... 这类长路径
+   会把表格最小宽度撑到 780px 以上，逼出横向滚动条。
+   用 anywhere 而非 break-word：只有 anywhere 会影响 min-content 计算。 */
+.prose table th,
+.prose table td { overflow-wrap: anywhere; }
+.prose table code { overflow-wrap: anywhere; }
 
 .prose table thead { border-bottom: 1px solid var(--border); }
 
