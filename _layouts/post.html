@@ -27,6 +27,12 @@ layout: default
         {{ content }}
       </div>
 
+      {% if page.original_url %}
+      <footer class="article-foot">
+        <p>本文最初发布于博客园：<a href="{{ page.original_url }}" target="_blank" rel="noopener">{{ page.original_url }}</a></p>
+      </footer>
+      {% endif %}
+
     </article>
   </div>
 
