@@ -58,17 +58,6 @@ title: 首页
             </div>
             <h2 class="cat-name">{{ cat.name }}</h2>
             <p class="cat-desc">{{ cat.desc }}</p>
-            <div class="cat-tags">
-              {%- for t in cat.tags -%}
-                {%- assign n = 0 -%}
-                {%- for post in posts -%}
-                  {%- if post.tags contains t -%}{%- assign n = n | plus: 1 -%}{%- endif -%}
-                {%- endfor -%}
-                {%- if n > 0 -%}
-                  <a class="cat-tag" href="?tag={{ t | url_encode }}">{{ t }} · {{ n }}</a>
-                {%- endif -%}
-              {%- endfor -%}
-            </div>
             {%- if matched.size > 0 -%}
             <div class="cat-recent">
               <div class="cat-recent-label">近期文章</div>
@@ -79,6 +68,38 @@ title: 首页
               {%- endfor -%}
             </div>
             {%- endif -%}
+            {%- assign tag_count = 0 -%}
+            {%- capture featured_tags -%}
+              {%- for t in cat.tags -%}
+                {%- assign n = 0 -%}
+                {%- for post in posts -%}
+                  {%- if post.tags contains t -%}{%- assign n = n | plus: 1 -%}{%- endif -%}
+                {%- endfor -%}
+                {%- if n > 0 -%}
+                  {%- assign tag_count = tag_count | plus: 1 -%}
+                  {%- if tag_count <= 4 -%}<a class="cat-tag" href="?tag={{ t | url_encode }}">{{ t }} · {{ n }}</a>{%- endif -%}
+                {%- endif -%}
+              {%- endfor -%}
+            {%- endcapture -%}
+            <div class="cat-tags">{{ featured_tags }}</div>
+            {%- if tag_count > 4 -%}
+            <details class="cat-more">
+              <summary>更多标签（{{ tag_count | minus: 4 }}）</summary>
+              <div class="cat-tags">
+                {%- assign tag_index = 0 -%}
+                {%- for t in cat.tags -%}
+                  {%- assign n = 0 -%}
+                  {%- for post in posts -%}
+                    {%- if post.tags contains t -%}{%- assign n = n | plus: 1 -%}{%- endif -%}
+                  {%- endfor -%}
+                  {%- if n > 0 -%}
+                    {%- assign tag_index = tag_index | plus: 1 -%}
+                    {%- if tag_index > 4 -%}<a class="cat-tag" href="?tag={{ t | url_encode }}">{{ t }} · {{ n }}</a>{%- endif -%}
+                  {%- endif -%}
+                {%- endfor -%}
+              </div>
+            </details>
+            {%- endif -%}
           </article>
           {%- endif -%}
         {%- endfor -%}
@@ -86,19 +107,25 @@ title: 首页
 
     </div>
 
-    <aside class="list-side">
-      <section class="side-card">
-        <h3 class="side-title">排序方式</h3>
+    <aside class="list-side" aria-label="文章筛选">
+      <section class="side-card sort-card">
+        <label class="side-title" for="sort-select">排序方式</label>
         <select id="sort-select" class="filter-select">
           <option value="new">最新发布</option>
           <option value="old">最早发布</option>
           <option value="title">按标题</option>
         </select>
       </section>
-      <section class="side-card">
+      <section class="side-card tags-card">
         <h3 class="side-title">按标签筛选</h3>
+        <button type="button" class="filter-toggle" id="filter-toggle" aria-expanded="false" aria-controls="tag-cloud" hidden>标签筛选</button>
         <div class="tag-cloud" id="tag-cloud"></div>
+        <button type="button" class="cloud-toggle" id="cloud-toggle" aria-expanded="false" aria-controls="tag-cloud" hidden>展开全部标签</button>
       </section>
+      <div class="filter-status" id="filter-status" hidden>
+        <span id="filter-status-text" role="status"></span>
+        <button type="button" id="filter-clear">清除</button>
+      </div>
     </aside>
   </div>
   </div>

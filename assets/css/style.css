@@ -1,6 +1,6 @@
 /* ==========================================================================
    版式参考：yinwang.org（王垠博客）
-   设计要点：暖白底 + 白卡、18px/1.78 正文、704px 阅读宽度、琥珀棕主题色、
+   设计要点：灰底 + 白卡、18px/1.78 正文、860px 阅读宽度、琥珀棕主题色、
              H2 用主题色、目录左侧吸顶、标签胶囊
    ========================================================================== */
 
@@ -24,9 +24,9 @@
   --muted:     #6b7280;
   --border:    #e5e7eb;   /* gray-200 */
   --border-theme: rgb(var(--theme-200));  /* 顶栏/页脚用主题色描边 */
-  --link:      rgb(var(--theme-600));
-  --link-hover:rgb(var(--theme-700));
-  --heading-accent: rgb(var(--theme-600));
+  --link:      rgb(var(--theme-800));
+  --link-hover:rgb(var(--theme-900));
+  --heading-accent: rgb(var(--theme-800));
   --tag-bg:    rgb(var(--theme-100));
   --tag-fg:    rgb(var(--theme-900));
   --code-bg:   #0d1117;
@@ -319,9 +319,7 @@ html.dark .nav-icon:hover { background: rgb(255 255 255 / .08); }
 }
 
 .prose {
-  /* 注意：这里不设 max-width。改用「子元素限宽」的方式，
-     让段落保持 704px 阅读宽度，而表格能用满卡片宽度——
-     否则宽表格会被 704px 挤到溢出裁切。 */
+  /* 段落用子元素限宽；表格由独立容器负责滚动，不撑破正文。 */
   max-width: none;
   font-family: var(--font-body);
   font-size: 18px;
@@ -331,16 +329,7 @@ html.dark .nav-icon:hover { background: rgb(255 255 255 / .08); }
 
 .prose > * { max-width: var(--measure); }
 
-/* 表格与代码块不参与限宽，可用满卡片 */
-/* 表格不外扩：保持在正文 704px 内，与段落左右对齐。
-   超宽时靠长串断行 + 横向滚动兜底，而不是顶到卡片边缘。 */
-.prose > table {
-  width: 100%;
-  max-width: 100%;
-  /* 0.84em（而非 typography 默认的 0.875em）：让含长路径的表在 704px 内排下，
-     避免横向滚动条。配合单元格 overflow-wrap 断行。 */
-  font-size: 0.84em;
-}
+/* 表格与代码块保持与段落对齐，超宽内容仅在组件内部滚动。 */
 .prose > pre { max-width: 100%; }
 
 .prose p { margin: 24px 0; }
@@ -357,7 +346,7 @@ html.dark .nav-icon:hover { background: rgb(255 255 255 / .08); }
   color: var(--fg);
   line-height: 1.33;
   scroll-margin-top: 80px;
-  /* 与正文同族（宋体）：内容层统一，避免目录/标题/正文三种字体并置 */
+  /* 标题与正文使用统一系统字体。 */
   font-family: var(--font-body);
 }
 
@@ -847,4 +836,88 @@ html.dark .cat-tag:hover { background: rgb(var(--theme-800)); }
   display: block;
   color: var(--muted);
   font-size: 15px;
+}
+
+/* 独立表格滚动：无脚本时 display:block 仍能兜底。 */
+.prose table { width: 100%; max-width: 100%; font-size: max(14px, .84em); }
+.prose table.table-wide { display: block; }
+.prose table.table-wide > thead, .prose table.table-wide > tbody { min-width: 640px; display: table-row-group; }
+.prose table.table-wide > thead { display: table-header-group; }
+.prose table.table-wide th, .prose table.table-wide td { min-width: 120px; }
+.table-scroll { max-width: 100%; overflow-x: auto; margin: 24px 0; }
+.table-scroll table { display: table; max-width: none; overflow: visible; }
+.table-scroll table.table-wide { display: table; min-width: 640px; }
+.prose .table-scroll-hint { font-size: 14px; color: var(--muted); margin: 18px 0 -12px; }
+.toc-inline { display: none; margin-bottom: 24px; border: 1px solid var(--border); border-radius: 8px; padding: 12px 16px; }
+.toc-inline summary { cursor: pointer; color: var(--fg); font-weight: 600; min-height: 24px; }
+.toc-inline ul { list-style: none; padding: 8px 0 0; margin: 0; }
+.toc-inline a { display: block; padding: 6px 0; color: var(--muted); text-decoration: none; font-size: 14px; }
+.toc-inline a.active { color: var(--link); font-weight: 600; }
+@media (max-width: 1200px) { .toc-inline { display: block; } }
+
+/* 内容优先：筛选按需展开，不占据窄屏首屏。 */
+:where(a, button, select, summary, [tabindex]):focus-visible {
+  outline: 2px solid var(--link);
+  outline-offset: 4px;
+}
+.side-title { display: block; }
+.filter-toggle, .cloud-toggle, .filter-status button {
+  font: inherit;
+  color: var(--link);
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 9px 12px;
+  cursor: pointer;
+}
+.filter-toggle { display: none; }
+.cloud-toggle { margin-top: 16px; width: 100%; }
+.filter-status { margin-top: 12px; font-size: 14px; }
+.filter-status button { margin-left: 8px; padding: 4px 8px; }
+.tag-btn.active { background: rgb(var(--theme-800)); border-color: rgb(var(--theme-800)); }
+html.dark .tag-btn.active { background: rgb(var(--theme-400)); color: #1f2937; border-color: rgb(var(--theme-400)); }
+.nav-links a.is-active, .tab.is-active { color: var(--link); }
+.tab:hover { color: var(--fg); }
+.prose { overflow-wrap: anywhere; }
+.prose pre { overflow-wrap: normal; }
+.prose a { text-decoration: underline; text-underline-offset: .18em; text-decoration-thickness: 1px; }
+.cat-card { cursor: default; }
+.cat-recent { margin-top: 0; margin-bottom: 18px; }
+.cat-tags { margin-bottom: 0; }
+.cat-more { margin-top: 10px; font-size: 14px; color: var(--muted); }
+.cat-more summary { cursor: pointer; padding: 6px 0; }
+.cat-more .cat-tags { margin-top: 8px; }
+
+@media (max-width: 1000px) {
+  .filters-ready { position: relative; }
+  .list-main { width: 100%; }
+  .post-card-title, .post-card-desc { overflow-wrap: anywhere; }
+  .filters-ready .list-side {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: 12px;
+  }
+  .filters-ready .side-card { padding: 0; border: 0; background: none; }
+  .filters-ready .side-card + .side-card { margin: 0; }
+  .filters-ready .sort-card .side-title { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
+  .filters-ready .tags-card .side-title, .filters-ready .cloud-toggle { display: none; }
+  .filters-ready .filter-toggle { display: block; width: 100%; min-height: 44px; }
+  .filters-ready .filter-select { min-height: 44px; }
+  .filters-ready .tag-cloud {
+    margin-top: 12px;
+    padding: 16px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+  }
+  .filters-ready .tag-cloud { width: calc(200% + 12px); margin-left: calc(-100% - 12px); }
+  .filters-ready .filter-status { grid-column: 1 / -1; margin: 0; }
+}
+@media (max-width: 360px) {
+  .nav-links { display: none; }
+  .nav-actions { gap: 2px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { transition-duration: .01ms !important; }
 }
